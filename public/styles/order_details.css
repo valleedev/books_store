@@ -1,0 +1,18 @@
+
+.main-content {
+    padding: 20px;
+}
+.product-img {
+    background-color: #d1e0e0;
+    width: 120px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+}
+.change-status-btn {
+    background-color: #3498db;
+    color: white;
+}

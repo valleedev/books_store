@@ -10,66 +10,18 @@ require_once __DIR__ . '/../../../router.php';
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= STYLE ?>order_confirmation.css">
+    <link rel="stylesheet" href="<?= STYLE ?>index.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="logo-container">
-                <div class="logo">
-                    <img src="/placeholder.svg?height=40&width=40" alt="Librarium Logo">
-                </div>
-                <h1 class="brand-name">LIBRARIUM</h1>
-            </div>
-        </div>
-    </header>
-    
-    <!-- Navegación -->
-    <nav class="nav-menu">
-        <div class="container">
-            <ul class="nav justify-content-center">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categoría 1</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categoría 2</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categoría 3</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categoría 4</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categoría 5</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    
-    <div class="container">
+    <?php
+    include '../../includes/navbar.php'
+    ?>
+    <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <div class="col-md-1 sidebar">
-                <div class="cart-summary mb-5 w-100">
-                    <h2>Carrito</h2>
-                    <p>- Productos 165</p>
-                    <p>- Total 150.00.00</p>
-                    <p>- Ver Carrito</p>
-                </div>
-                
-                <div class="user-section">
-                    <h2>Isaac Cardona</h2>
-                    <p>- Gestionar productos</p>
-                    <p>- Gestionar categorías</p>
-                    <p>- Gestionar pedidos</p>
-                    <p>- Mis pedidos</p>
-                    <p>- Cerrar sesión</p>
-                </div>
-            </div> 
+            <?php
+            include '../../includes/aside.php'
+            ?>
             
             
             <!-- Contenido principal -->
@@ -123,12 +75,9 @@ require_once __DIR__ . '/../../../router.php';
         </div>
     </div>
     
-    <!-- Footer -->
-    <footer class="footer mt-5">
-        <div class="container">
-            <p class="mb-0">Desarrollado por Grupo n° 2 | SENA CDITI 2025</p>
-        </div>
-    </footer>
+    <?php
+    include '../../includes/footer.php'
+    ?>
     
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
