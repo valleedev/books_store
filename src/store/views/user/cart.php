@@ -7,5 +7,6 @@
 </head>
 <body>
     <h1>este es el carrito</h1>
+    <p>este es un parrafo</p>
 </body>
 </html>
