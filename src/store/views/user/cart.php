@@ -12,46 +12,12 @@ require_once __DIR__ . '/../../../router.php';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="<?= STYLE ?>cart.css">
+    <link rel="stylesheet" href="<?= STYLE ?>index.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="logo-container">
-                <div class="logo">
-                    <img src="<?= IMAGES ?>logo-librarium.jpg" alt="Librarium Logo">
-                </div>
-                <h1 class="brand-name">LIBRARIUM</h1>
-            </div>
-        </div>
-    </header>
-    
-    <!-- Navigation Menu -->
-    <nav class="nav-menu">
-        <div class="container">
-            <ul class="nav justify-content-center">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categoría 1</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categoría 2</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categoría 3</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categoría 4</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Categoría 5</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    
+    <?php
+    include '../../includes/navbar.php'
+    ?>
     <div class="container">
         <div class="row">
             <!-- Sidebar -->
@@ -144,8 +110,52 @@ require_once __DIR__ . '/../../../router.php';
                         <h5>Precio Total {Total}</h5>
                     </div>
                     <div class="col-md-4 text-end">
-                        <button class="btn btn-pedido">HACER PEDIDO</button>
+                        <!-- Button to trigger modal -->
+                        <button class="btn btn-pedido" data-bs-toggle="modal" data-bs-target="#pedidoModal">HACER PEDIDO</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="pedidoModal" tabindex="-1" aria-labelledby="pedidoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pedidoModalLabel">Hacer Pedido</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="procesar_pedido.php" method="POST">
+                        <div class="mb-3">
+                            <label for="direccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ciudad" class="form-label">Ciudad</label>
+                            <input type="text" class="form-control" id="ciudad" name="ciudad" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="departamento" class="form-label">Departamento</label>
+                            <input type="text" class="form-control" id="departamento" name="departamento" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="contacto" class="form-label">Nro de Contacto</label>
+                            <div class="input-group">
+                                <select class="form-select" id="prefijo" name="prefijo" required>
+                                    <option value="+57" selected>+57 (Colombia)</option>
+                                    <option value="+1">+1 (EE.UU.)</option>
+                                    <option value="+44">+44 (Reino Unido)</option>
+                                    <option value="+34">+34 (España)</option>
+                                    <option value="+52">+52 (México)</option>
+                                    <!-- Agrega más prefijos según sea necesario -->
+                                </select>
+                                <input type="number" class="form-control" id="contacto" name="contacto" placeholder="Número de contacto" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Confirmar Pedido</button>
+                    </form>
                 </div>
             </div>
         </div>
