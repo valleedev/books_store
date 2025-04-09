@@ -1,0 +1,19 @@
+.main-content {
+    padding: 20px;
+}
+
+.btn-edit {
+    background-color: #b8e0e6;
+    border-color: #b8e0e6;
+    color: #000;
+}
+
+.btn-delete {
+    background-color: #f5c6cb;
+    border-color: #f5c6cb;
+    color: #000;
+}
+
+.table th {
+    font-weight: bold;
+}
