@@ -8,7 +8,7 @@ require_once __DIR__ . '/../../../router.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIBRARIUM - Gestión de Productos</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
     <link rel="stylesheet" href="<?= STYLE ?>products.css">
 
@@ -18,9 +18,9 @@ require_once __DIR__ . '/../../../router.php';
     <?php
     include '../../includes/navbar.php'
     ?>    
-    
+
     <!-- Main Content -->
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
             <?php
