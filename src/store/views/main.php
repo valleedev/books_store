@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../router.php';
+require_once __DIR__ . '/../../db.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,41 +28,36 @@ require_once __DIR__ . '/../../router.php';
                 <h2>Nuestros Productos</h2>
                 
                 <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-title">Camiseta Azul</div>
-                        <div class="product-price">$ 20.000</div>
-                        <button class="buy-button">Agregar al carrito</button>
-                    </div>
+                    <?php
+                    $query = "SELECT id, nombre, precio, imagen, oferta FROM productos ORDER BY id DESC";
+                    $result = mysqli_query($conexion, $query);
                     
-                    <div class="product-card">
-                        <div class="product-title">Camiseta Azul</div>
-                        <div class="product-price">$ 20.000</div>
-                        <button class="buy-button">Agregar al carrito</button>
-                    </div>
-                    
-                    <div class="product-card">
-                        <div class="product-title">Camiseta Azul</div>
-                        <div class="product-price">$ 20.000</div>
-                        <button class="buy-button">Agregar al carrito</button>
-                    </div>
-                    
-                    <div class="product-card">
-                        <div class="product-title">Camiseta Azul</div>
-                        <div class="product-price">$ 20.000</div>
-                        <button class="buy-button">Agregar al carrito</button>
-                    </div>
-                    
-                    <div class="product-card">
-                        <div class="product-title">Camiseta Azul</div>
-                        <div class="product-price">$ 20.000</div>
-                        <button class="buy-button">Agregar al carrito</button>
-                    </div>
-                    
-                    <div class="product-card">
-                        <div class="product-title">Camiseta Azul</div>
-                        <div class="product-price">$ 20.000</div>
-                        <button class="buy-button">Agregar al carrito</button>
-                    </div>
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($producto = mysqli_fetch_assoc($result)) {
+                            $precio_final = $producto['precio'];
+                            if ($producto['oferta'] > 0) {
+                                $precio_final = $producto['precio'] * (1 - ($producto['oferta'] / 100));
+                            }
+                            ?>
+                            <div class="product-card">
+                                <?php if (!empty($producto['imagen'])): ?>
+                                <img src="/public/uploads/productos/<?= $producto['imagen'] ?>" alt="<?= $producto['nombre'] ?>" class="product-image">
+                                <?php else: ?>
+                                <div class="no-image">Sin imagen</div>
+                                <?php endif; ?>
+                                <div class="product-title"><?= $producto['nombre'] ?></div>
+                                <div class="product-price">$ <?= number_format($precio_final, 0, ',', '.') ?></div>
+                                <?php if ($producto['oferta'] > 0): ?>
+                                <div class="product-discount">Descuento: <?= $producto['oferta'] ?>%</div>
+                                <?php endif; ?>
+                                <button class="buy-button" onclick="agregarAlCarrito(<?= $producto['id'] ?>)">Agregar al carrito</button>
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        echo '<p class="no-products">No hay productos disponibles.</p>';
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -70,5 +66,6 @@ require_once __DIR__ . '/../../router.php';
             include '../includes/footer.php';
         ?>
     </div>
+    
 </body>
 </html>

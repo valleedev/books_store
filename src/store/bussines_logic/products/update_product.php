@@ -91,7 +91,7 @@ if (isset($_POST['edit_product'])) {
 <script>
     function editarProducto(id) {
 
-        fetch('?id=' + id)
+        fetch('get_product.php?id=' + id)
             .then(response => response.json())
             .then(data => {
 

@@ -19,6 +19,7 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
         $categorias[] = $row;
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -35,18 +36,18 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
 </head>
 
 <body>
-    
+
     <?php
     include '../../includes/navbar.php';
     ?>
-    
+
     <div class="container-fluid">
         <div class="row">
-            
+
             <?php
             include '../../includes/aside.php';
             ?>
-            
+
             <div class="col-md-10 main-content">
                 <h2 class="text-center mb-4">Gestión de Productos</h2>
 
@@ -202,7 +203,7 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
                     </thead>
                     <tbody>
                         <?php
-                        
+
                         $query = "SELECT id, nombre, stock FROM productos ORDER BY id DESC";
                         $result = mysqli_query($conexion, $query);
 

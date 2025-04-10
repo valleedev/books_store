@@ -6,5 +6,6 @@ define('INCLUDES', '/books_store/src/store/includes/');
 
 
 define('PRODUCTS', '/books_store/src/store/views/admin/');
+define('MAIN', '/books_store/src/store/views/');
 
 ?>
