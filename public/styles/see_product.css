@@ -17,12 +17,6 @@ body {
     flex: 1;
 }
 
-.sidebar {
-    flex: 0 0 250px;
-    max-width: 250px;
-    position: relative;
-}
-
 .content {
     flex: 1;
     padding: 30px;
