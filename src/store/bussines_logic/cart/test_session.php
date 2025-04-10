@@ -21,6 +21,7 @@ $_SESSION['cart'] = [
     ]
 ];
 
+
 // Verificar el contenido de la sesión
 echo '<pre>';
 print_r($_SESSION['cart']);

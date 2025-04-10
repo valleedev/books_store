@@ -1,10 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../router.php';
 
-// Inicia la sesión para acceder a los datos del carrito
 session_start();
-
-// Verifica si el carrito existe en la sesión
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 ?>
 <!DOCTYPE html>
@@ -66,18 +63,23 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                                 <p>$ <?= number_format($product['precio'], 0, ',', '.') ?></p>
                             </div>
                             <div class="col-md-2 text-center">
-                                <form action="actualizar_carrito.php" method="POST" class="d-inline">
+                                <!-- Botón para disminuir cantidad -->
+                                <form action="../../bussines_logic/cart/actualiza_carrito.php" method="POST" class="d-inline">
                                     <input type="hidden" name="index" value="<?= $index ?>">
                                     <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary">-</button>
                                 </form>
                                 <span><?= htmlspecialchars($product['cantidad']) ?></span>
-                                <form action="actualizar_carrito.php" method="POST" class="d-inline">
+                                <!-- Botón para aumentar cantidad -->
+                                <form action="../../bussines_logic/cart/actualiza_carrito.php" method="POST" class="d-inline">
                                     <input type="hidden" name="index" value="<?= $index ?>">
                                     <button type="submit" name="action" value="increase" class="btn btn-sm btn-outline-secondary">+</button>
                                 </form>
                             </div>
                             <div class="col-md-2 text-center">
-                                <button class="btn btn-eliminar">ELIMINAR</button>
+                                <form action="../../bussines_logic/cart/actualiza_carrito.php" method="POST" class="d-inline">
+                                    <input type="hidden" name="index" value="<?= $index ?>">
+                                    <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger">ELIMINAR</button>
+                                </form>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -92,7 +94,9 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                 <!-- Cart Actions -->
                 <div class="row cart-actions">
                     <div class="col-md-4">
-                        <button class="btn btn-vaciar">VACIAR CARRITO</button>
+                        <form action="../../bussines_logic/cart/actualiza_carrito.php" method="POST">
+                            <button type="submit" name="action" value="empty" class="btn btn-vaciar btn-danger">VACIAR CARRITO</button>
+                        </form>
                     </div>
                     <div class="col-md-4 text-center">
                         <h5>
