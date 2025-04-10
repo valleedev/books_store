@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['edit_product'])) {
     $upload_successful = true;
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $upload_dir = __DIR__ . '/../../../../public/uploads/productos/';
+        $upload_dir = __DIR__ . '/../../../../public/images/products/';
 
         if (!file_exists($upload_dir)) {
             mkdir($upload_dir, 0777, true);
