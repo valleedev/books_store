@@ -3,7 +3,6 @@
 }
 .btn-create {
     background-color: #8ad28e;
-    border-color: #8ad28e;
     color: #fff;
     font-size: 14px;
     padding: 5px 10px;
@@ -12,16 +11,30 @@
 
 .btn-delete {
     background-color: #f5726c;
-    border-color: #f5726c;
     color: #fff;
     width: 100%;
 }
 .btn-edit {
     background-color: #8ad28e;
-    border-color: #8ad28e;
     color: #fff;
     width: 100%;
 }
 .table th {
     font-weight: bold;
 }
+
+.btn-create:hover {
+    background-color: #51ce57;
+    color: #fff;
+}
+
+.btn-edit:hover {
+    background-color: #51ce57;
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background-color: #ff2318;
+    color: #fff;
+}
+
