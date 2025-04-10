@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__ . '/../../../router.php';
 
+// Inicia la sesión para acceder a los datos del carrito
+session_start();
+
+// Verifica si el carrito existe en la sesión
+$cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -45,47 +50,44 @@ require_once __DIR__ . '/../../../router.php';
                     </div>
                 </div>
                 
-                <!-- Product 1 -->
-                <div class="row product-row">
-                    <div class="col-md-2">
-                        <div class="product-image">
-                            <p>Foto producto</p>
+                <!-- Products -->
+                <?php if (!empty($cart)): ?>
+                    <?php foreach ($cart as $index => $product): ?>
+                        <div class="row product-row">
+                            <div class="col-md-2">
+                                <div class="product-image">
+                                    <p>Foto producto</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <p><?= htmlspecialchars($product['nombre']) ?></p>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <p>$ <?= number_format($product['precio'], 0, ',', '.') ?></p>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <form action="actualizar_carrito.php" method="POST" class="d-inline">
+                                    <input type="hidden" name="index" value="<?= $index ?>">
+                                    <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary">-</button>
+                                </form>
+                                <span><?= htmlspecialchars($product['cantidad']) ?></span>
+                                <form action="actualizar_carrito.php" method="POST" class="d-inline">
+                                    <input type="hidden" name="index" value="<?= $index ?>">
+                                    <button type="submit" name="action" value="increase" class="btn btn-sm btn-outline-secondary">+</button>
+                                </form>
+                            </div>
+                            <div class="col-md-2 text-center">
+                                <button class="btn btn-eliminar">ELIMINAR</button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <p>No hay productos en el carrito.</p>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <p>Nombre_producto</p>
-                    </div>
-                    <div class="col-md-2 text-center">
-                        <p>$ 20.000</p>
-                    </div>
-                    <div class="col-md-2 text-center">
-                        <p>Num Cantidad</p>
-                    </div>
-                    <div class="col-md-2 text-center">
-                        <button class="btn btn-eliminar">ELIMINAR</button>
-                    </div>
-                </div>
-                
-                <!-- Product 2 -->
-                <div class="row product-row">
-                    <div class="col-md-2">
-                        <div class="product-image">
-                            <p>Foto producto</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Nombre_producto</p>
-                    </div>
-                    <div class="col-md-2 text-center">
-                        <p>$ 20.000</p>
-                    </div>
-                    <div class="col-md-2 text-center">
-                        <p>Num cantidad</p>
-                    </div>
-                    <div class="col-md-2 text-center">
-                        <button class="btn btn-eliminar">ELIMINAR</button>
-                    </div>
-                </div>
+                <?php endif; ?>
                 
                 <!-- Cart Actions -->
                 <div class="row cart-actions">
@@ -93,7 +95,10 @@ require_once __DIR__ . '/../../../router.php';
                         <button class="btn btn-vaciar">VACIAR CARRITO</button>
                     </div>
                     <div class="col-md-4 text-center">
-                        <h5>Precio Total {Total}</h5>
+                        <h5>
+                            Precio Total: 
+                            $ <?= number_format(array_sum(array_map(fn($p) => $p['precio'] * $p['cantidad'], $cart)), 0, ',', '.') ?>
+                        </h5>
                     </div>
                     <div class="col-md-4 text-end">
                         <!-- Button to trigger modal -->
