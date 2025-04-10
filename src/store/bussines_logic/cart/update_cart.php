@@ -1,6 +1,4 @@
 <?php
-// filepath: c:\wamp64\www\books_store\src\store\bussines_logic\cart\actualiza_carrito.php
-
 session_start();
 
 if (isset($_POST['action'])) {
@@ -16,11 +14,11 @@ if (isset($_POST['action'])) {
         if (isset($_SESSION['cart'][$index])) {
             if ($action === 'increase') {
                 // Aumentar la cantidad
-                $_SESSION['cart'][$index]['cantidad']++;
+                $_SESSION['cart'][$index]['quantity']++;
             } elseif ($action === 'decrease') {
                 // Disminuir la cantidad, pero no permitir que sea menor a 1
-                if ($_SESSION['cart'][$index]['cantidad'] > 1) {
-                    $_SESSION['cart'][$index]['cantidad']--;
+                if ($_SESSION['cart'][$index]['quantity'] > 1) {
+                    $_SESSION['cart'][$index]['quantity']--;
                 }
             } elseif ($action === 'delete') {
                 // Eliminar el producto del carrito

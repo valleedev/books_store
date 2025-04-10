@@ -57,26 +57,26 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <p><?= htmlspecialchars($product['nombre']) ?></p>
+                                <p><?= htmlspecialchars($product['name']) ?></p>
                             </div>
                             <div class="col-md-2 text-center">
-                                <p>$ <?= number_format($product['precio'], 0, ',', '.') ?></p>
+                                <p>$ <?= number_format($product['price'], 0, ',', '.') ?></p>
                             </div>
                             <div class="col-md-2 text-center">
                                 <!-- Botón para disminuir cantidad -->
-                                <form action="../../bussines_logic/cart/actualiza_carrito.php" method="POST" class="d-inline">
+                                <form action="../../bussines_logic/cart/update_cart.php" method="POST" class="d-inline">
                                     <input type="hidden" name="index" value="<?= $index ?>">
                                     <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary">-</button>
                                 </form>
-                                <span><?= htmlspecialchars($product['cantidad']) ?></span>
+                                <span><?= htmlspecialchars($product['quantity']) ?></span>
                                 <!-- Botón para aumentar cantidad -->
-                                <form action="../../bussines_logic/cart/actualiza_carrito.php" method="POST" class="d-inline">
+                                <form action="../../bussines_logic/cart/update_cart.php" method="POST" class="d-inline">
                                     <input type="hidden" name="index" value="<?= $index ?>">
                                     <button type="submit" name="action" value="increase" class="btn btn-sm btn-outline-secondary">+</button>
                                 </form>
                             </div>
                             <div class="col-md-2 text-center">
-                                <form action="../../bussines_logic/cart/actualiza_carrito.php" method="POST" class="d-inline">
+                                <form action="../../bussines_logic/cart/update_cart.php" method="POST" class="d-inline">
                                     <input type="hidden" name="index" value="<?= $index ?>">
                                     <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger">ELIMINAR</button>
                                 </form>
@@ -94,14 +94,14 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                 <!-- Cart Actions -->
                 <div class="row cart-actions">
                     <div class="col-md-4">
-                        <form action="../../bussines_logic/cart/actualiza_carrito.php" method="POST">
+                        <form action="../../bussines_logic/cart/update_cart.php" method="POST">
                             <button type="submit" name="action" value="empty" class="btn btn-vaciar btn-danger">VACIAR CARRITO</button>
                         </form>
                     </div>
                     <div class="col-md-4 text-center">
                         <h5>
                             Precio Total: 
-                            $ <?= number_format(array_sum(array_map(fn($p) => $p['precio'] * $p['cantidad'], $cart)), 0, ',', '.') ?>
+                            $ <?= number_format(array_sum(array_map(fn($p) => $p['price'] * $p['quantity'], $cart)), 0, ',', '.') ?>
                         </h5>
                     </div>
                     <div class="col-md-4 text-end">
