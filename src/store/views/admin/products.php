@@ -179,7 +179,7 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
                                         <small class="text-muted">Formatos permitidos: JPG, JPEG, PNG, GIF. Tamaño máximo: 2MB</small>
                                         <div id="current_image_container" class="mt-2">
                                             <p>Imagen actual:</p>
-                                            <img id="current_image" src="" alt="Imagen actual" style="max-width: 100px; max-height: 100px;">
+                                            <img id="current_image" src="/public/images/uploads/products/<?= $row['imagen'] ?>" alt="Imagen actual" style="max-width: 100px; max-height: 100px;">
                                         </div>
                                     </div>
                                 </div>
@@ -195,27 +195,31 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
                 <table class="table">
                     <thead>
                         <tr>
-                            <th width="10%">ID</th>
-                            <th width="40%">NOMBRE</th>
-                            <th width="20%">STOCK</th>
-                            <th width="30%">ACCIONES</th>
+                            <th width="10%">IMAGEN</th>
+                            <th width="20%">NOMBRE</th>
+                            <th width="20%">PRECIO</th>
+                            <th width="10%">OFERTA</th>
+                            <th width="10%">STOCK</th>
+                            <th width="40%">ACCIONES</th>
                         </tr>
-                    </thead>
+                    </thead> 
                     <tbody>
                         <?php
 
-                        $query = "SELECT id, nombre, stock FROM productos ORDER BY id DESC";
+                        $query = "SELECT * FROM productos ORDER BY id DESC";
                         $result = mysqli_query($conexion, $query);
 
                         if (mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
                                 echo "<tr>";
-                                echo "<td>" . $row['id'] . "</td>";
+                                echo "<td><img src='" . IMAGES . "uploads/products/" . $row['imagen'] . "' alt='Imagen del producto' style='max-width:80px; max-height: 80px;'></td>";
                                 echo "<td>" . $row['nombre'] . "</td>";
+                                echo "<td>" . $row['precio'] . "</td>";
+                                echo "<td>" . $row['oferta'] . "</td>";
                                 echo "<td>" . $row['stock'] . "</td>";
                                 echo "<td>
-                                        <button class='btn btn-edit w-50' onclick='editarProducto(" . $row['id'] . ")'>Editar</button>
-                                        <button class='btn btn-delete w-50' onclick='eliminarProducto(" . $row['id'] . ")'>Eliminar</button>
+                                        <button class='btn btn-edit w-25' onclick='editarProducto(" . $row['id'] . ")'>Editar</button>
+                                        <button class='btn btn-delete w-25' onclick='eliminarProducto(" . $row['id'] . ")'>Eliminar</button>
                                       </td>";
                                 echo "</tr>";
                             }
