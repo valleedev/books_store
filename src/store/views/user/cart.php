@@ -53,7 +53,7 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                         <div class="row product-row">
                             <div class="col-md-2">
                                 <div class="product-image">
-                                    <p>Foto producto</p>
+                                <?php echo "<td><img src='" . IMAGES . "uploads/products/" . $product['image'] . "' alt='Imagen del producto' style='max-width:150px; max-height: 150px;'></td>" ?>
                                 </div>
                             </div>
                             <div class="col-md-4">
