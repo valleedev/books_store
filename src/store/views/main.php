@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
             break;
         }
     }
- 
+
     // Si no está en el carrito, agrégalo
     if (!$found) {
         $_SESSION['cart'][] = [
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                                 <h1 class="modal-title fs-5" id="createModalLabel">Crear Producto</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form method="POST" action="sign_in.php" enctype="multipart/form-data">
+                            <form method="POST" action="../bussines_logic/auth/sign_in.php" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Nombre</label>
@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                                     <div class="mb-3">
                                         <label for="lastname" class="form-label">Apellidos</label>
                                         <input type="text" class="form-control" id="lastname" name="lastname" required>
-                                    </div>                                    
+                                    </div>
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Correo electronico</label>
                                         <input type="email" class="form-control" id="email" name="email" required>
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                                     <div class="mb-3">
                                         <label for="password" class="form-label">Contraseña</label>
                                         <input type="password" class="form-control" id="password" name="password" required>
-                                    </div>                                    
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -113,8 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                 <?php
                 // Mostrar mensaje de éxito si existe
                 if (isset($_SESSION['message'])) {
-                    echo '<div class="alert alert-success">' . $_SESSION['message'] . '</div>';
-                    unset($_SESSION['message']); 
+                    echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['message']) . '</div>';
+                    unset($_SESSION['message']); // Limpia el mensaje después de mostrarlo
                 }
                 ?>
                 <div class="product-grid">

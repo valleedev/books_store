@@ -1,8 +1,5 @@
 <?php
-require_once __DIR__ . '/../../router.php';
-require_once __DIR__ . '/../../db.php';
-
-$message = ''; // Variable para almacenar el mensaje
+require_once __DIR__ . '/../../../db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['name']);
@@ -15,16 +12,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = mysqli_query($conexion, $check_email);
 
     if (mysqli_num_rows($result) > 0) {
-        $message = "Error: El correo ya está registrado.";
+        // Redirigir con un mensaje de error
+        header("Location: ../../views/main.php");
+        exit();
     } else {
         $contrasena_segura = password_hash($contrasena, PASSWORD_BCRYPT);
         $query = "INSERT INTO usuarios (nombre, apellidos, email, password) 
-                  VALUES ('$nombre', '$apellidos', '$correo', '$contrasena_segura')";
+                VALUES ('$nombre', '$apellidos', '$correo', '$contrasena_segura')";
 
         if (mysqli_query($conexion, $query)) {
-            $message = "Registro exitoso. Ahora puedes iniciar sesión.";
+            // Redirigir con un mensaje de éxito
+            header("Location: ../../views/main.php");
+            exit();
         } else {
-            $message = "Error: No se pudo completar el registro.";
+            // Redirigir con un mensaje de error
+            header("Location: ../../views/main.php");
+            exit();
         }
     }
 }
