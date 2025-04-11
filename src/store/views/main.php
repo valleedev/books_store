@@ -2,6 +2,8 @@
 session_start(); // Asegúrate de iniciar la sesión al principio del archivo
 require_once __DIR__ . '/../../router.php';
 require_once __DIR__ . '/../../db.php';
+require_once __DIR__ . '/../bussines_logic/login/login.php';
+
 
 // Función para agregar productos al carrito
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
@@ -24,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
             break;
         }
     }
- 
+
     // Si no está en el carrito, agrégalo
     if (!$found) {
         $_SESSION['cart'][] = [
@@ -43,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,32 +54,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     <link rel="stylesheet" href="<?= STYLE ?>main.css">
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
 </head>
+
 <body>
-    <?php 
-        include '../includes/navbar.php';
+    <?php
+    include '../includes/navbar.php';
     ?>
-    <div class="container-m">    
+    <div class="container-m">
 
         <div class="main-content">
 
+
             <?php
-                include '../includes/aside.php';
+            include '../includes/aside.php';
             ?>
-            
+
             <div class="products">
                 <h2>Nuestros Productos</h2>
+                <button class="btn btn-pedido" data-bs-toggle="modal" data-bs-target="#pedidoModal">Iniciar
+                    Sesion</button>
                 <?php
                 // Mostrar mensaje de éxito si existe
                 if (isset($_SESSION['message'])) {
                     echo '<div class="alert alert-success">' . $_SESSION['message'] . '</div>';
-                    unset($_SESSION['message']); 
+                    unset($_SESSION['message']);
                 }
                 ?>
                 <div class="product-grid">
                     <?php
                     $query = "SELECT id, nombre, precio, imagen, oferta FROM productos ORDER BY id DESC";
                     $result = mysqli_query($conexion, $query);
-                    
+
                     if (mysqli_num_rows($result) > 0) {
                         while ($producto = mysqli_fetch_assoc($result)) {
                             $precio_final = $producto['precio'];
@@ -86,14 +93,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                             ?>
                             <div class="product-card">
                                 <?php if (!empty($producto['imagen'])): ?>
-                                <img src="/public/uploads/productos/<?= $producto['imagen'] ?>" alt="<?= $producto['nombre'] ?>" class="product-image">
+                                    <img src="/public/uploads/productos/<?= $producto['imagen'] ?>" alt="<?= $producto['nombre'] ?>"
+                                        class="product-image">
                                 <?php else: ?>
-                                <div class="no-image">Sin imagen</div>
+                                    <div class="no-image">Sin imagen</div>
                                 <?php endif; ?>
                                 <div class="product-title"><?= $producto['nombre'] ?></div>
                                 <div class="product-price">$ <?= number_format($precio_final, 0, ',', '.') ?></div>
                                 <?php if ($producto['oferta'] > 0): ?>
-                                <div class="product-discount">Descuento: <?= $producto['oferta'] ?>%</div>
+                                    <div class="product-discount">Descuento: <?= $producto['oferta'] ?>%</div>
                                 <?php endif; ?>
                                 <form method="POST" style="display:inline;">
                                     <input type="hidden" name="add_to_cart" value="1">
@@ -113,10 +121,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
             </div>
         </div>
 
-        <?php 
-            include '../includes/footer.php';
-        ?>
+        <!-- modal -->
+        <div class="modal fade" id="pedidoModal" tabindex="-1" aria-labelledby="pedidoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="pedidoModalLabel">Iniciar Sesion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <?php if (!empty($mensaje)): ?>
+                            <div class="alerta alerta-error">
+                                <?= $mensaje; ?>
+                            </div>
+                        <?php endif; ?>
+                        <form method="POST"">
+                    <div class=" mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    
+    </div>
+
+    <?php
+    include '../includes/footer.php';
+    ?>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+
 </html>
