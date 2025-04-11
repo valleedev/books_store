@@ -42,6 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
+
+// Obtener el ID de la categoría desde la URL (si está presente)
+$categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']) ? (int)$_GET['categoria_id'] : null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,9 +122,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                 ?>
                 <div class="product-grid">
                     <?php
-                    $query = "SELECT id, nombre, precio, imagen, oferta FROM productos ORDER BY id DESC";
+                    if ($categoria_id) {
+                        $query = "SELECT id, nombre, precio, imagen, oferta FROM productos WHERE categoria_id = $categoria_id ORDER BY id DESC";
+                    } else {
+                        $query = "SELECT id, nombre, precio, imagen, oferta FROM productos ORDER BY id DESC";
+                    }
                     $result = mysqli_query($conexion, $query);
-                    
                     if (mysqli_num_rows($result) > 0) {
                         while ($producto = mysqli_fetch_assoc($result)) {
                             $precio_final = $producto['precio'];
