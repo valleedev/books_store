@@ -85,8 +85,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                             if ($producto['oferta'] > 0) {
                                 $precio_final = $producto['precio'] * (1 - ($producto['oferta'] / 100));
                             }
+
+                            // Verificar si el producto ya está en el carrito
+                            $in_cart = false;
+                            if (isset($_SESSION['cart'])) {
+                                foreach ($_SESSION['cart'] as $item) {
+                                    if ($item['id'] == $producto['id']) {
+                                        $in_cart = true;
+                                        break;
+                                    }
+                                }
+                            }
                             ?>
-                            <div class="product-card">
+                            <a class="product-card" href='user/see_product.php?id=<?= $producto['id'] ?>'>
                                 <?php if (!empty($producto['imagen'])): ?>
                                 <?php echo "<td><img src='" . IMAGES . "uploads/products/" . $producto['imagen'] . "' alt='Imagen del producto' style='max-width:200px; max-height: 200px;'></td>" ?>
                                 <?php else: ?>
@@ -97,6 +108,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                                 <?php if ($producto['oferta'] > 0): ?>
                                 <div class="product-discount">Descuento: <?= $producto['oferta'] ?>%</div>
                                 <?php endif; ?>
+
+                                <?php if (!$in_cart): ?>
+                                <!-- Mostrar botón "Agregar al carrito" si no está en el carrito -->
                                 <form method="POST" style="display:inline;">
                                     <input type="hidden" name="add_to_cart" value="1">
                                     <input type="hidden" name="product_id" value="<?= $producto['id'] ?>">
@@ -105,7 +119,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                                     <input type="hidden" name="product_price" value="<?= $precio_final ?>">
                                     <button type="submit" class="buy-button">Agregar al carrito</button>
                                 </form>
-                            </div>
+                                <?php else: ?>
+                                <!-- Mostrar mensaje si ya está en el carrito -->
+                                <div class="in-cart-message">Ya en el carrito</div>
+                                <?php endif; ?>
+                            </a>
                             <?php
                         }
                     } else {
