@@ -73,7 +73,7 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
             </div>
         <?php endif; ?>
                 <button type="button" class="btn btn-create" data-bs-toggle="modal" data-bs-target="#createModal">
-                    Crear Producto
+                    Registrarse
                 </button>
                 <!-- Modal de Creación -->
                 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -103,8 +103,8 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary">Crear</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Registrar</button>
                                 </div>
                             </form>
                         </div>
