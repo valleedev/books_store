@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
             break;
         }
     }
-
+ 
     // Si no está en el carrito, agrégalo
     if (!$found) {
         $_SESSION['cart'][] = [
@@ -113,8 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                 <?php
                 // Mostrar mensaje de éxito si existe
                 if (isset($_SESSION['message'])) {
-                    echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['message']) . '</div>';
-                    unset($_SESSION['message']); // Limpia el mensaje después de mostrarlo
+                    echo '<div class="alert alert-success">' . $_SESSION['message'] . '</div>';
+                    unset($_SESSION['message']); 
                 }
                 ?>
                 <div class="product-grid">
