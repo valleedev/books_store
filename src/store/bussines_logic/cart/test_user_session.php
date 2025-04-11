@@ -6,7 +6,7 @@ $_SESSION['user'] = [
     'id' => 1,
     'name' => 'Juan Pérez',
     'email' => 'juan.perez@example.com',
-    'role' => 'customer', // Puede ser 'admin' o 'customer'
+    'role' => 'admin', // Puede ser 'admin' o 'customer'
 ];
 
 // Mensaje de confirmación
