@@ -47,8 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 
 // Obtener el ID de la categoría desde la URL (si está presente)
 $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']) ? (int)$_GET['categoria_id'] : null;
-
-$result = mysqli_query($conexion, $query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -93,6 +91,7 @@ $result = mysqli_query($conexion, $query);
                     } else {
                         $query = "SELECT id, nombre, precio, imagen, oferta FROM productos ORDER BY id DESC";
                     }
+                    $result = mysqli_query($conexion, $query);
                     if (mysqli_num_rows($result) > 0) {
                         while ($producto = mysqli_fetch_assoc($result)) {
                             $precio_final = $producto['precio'];
