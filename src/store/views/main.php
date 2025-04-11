@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../db.php';
 // Función para agregar productos al carrito
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     $product_id = $_POST['product_id'];
+    $product_image = $_POST['product_image'];
     $product_name = $_POST['product_name'];
     $product_price = $_POST['product_price'];
     $product_quantity = 1;
@@ -29,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     if (!$found) {
         $_SESSION['cart'][] = [
             'id' => $product_id,
+            'image' => $product_image,
             'name' => $product_name,
             'price' => $product_price,
             'quantity' => $product_quantity,
@@ -86,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                             ?>
                             <div class="product-card">
                                 <?php if (!empty($producto['imagen'])): ?>
-                                <img src="/public/uploads/productos/<?= $producto['imagen'] ?>" alt="<?= $producto['nombre'] ?>" class="product-image">
+                                <?php echo "<td><img src='" . IMAGES . "uploads/products/" . $producto['imagen'] . "' alt='Imagen del producto' style='max-width:200px; max-height: 200px;'></td>" ?>
                                 <?php else: ?>
                                 <div class="no-image">Sin imagen</div>
                                 <?php endif; ?>
@@ -98,6 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                                 <form method="POST" style="display:inline;">
                                     <input type="hidden" name="add_to_cart" value="1">
                                     <input type="hidden" name="product_id" value="<?= $producto['id'] ?>">
+                                    <input type="hidden" name="product_image" value="<?= $producto['imagen'] ?>">
                                     <input type="hidden" name="product_name" value="<?= $producto['nombre'] ?>">
                                     <input type="hidden" name="product_price" value="<?= $precio_final ?>">
                                     <button type="submit" class="buy-button">Agregar al carrito</button>
