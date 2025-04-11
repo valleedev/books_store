@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../router.php';
 require_once __DIR__ . '/../../../db.php'; // Asegúrate de incluir la conexión a la base de datos
-
+session_start();
 // Verificar si el ID del producto está presente en la URL
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $product_id = (int)$_GET['id'];
