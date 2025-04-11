@@ -23,7 +23,6 @@ body {
 }
 
 .product-image {
-    background-color: #d1e7e9;
     height: 150px;
     display: flex;
     margin-bottom: 1em;

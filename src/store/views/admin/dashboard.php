@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../../router.php';
+session_start()
 ?>
 <!DOCTYPE html>
 <html lang="es">
