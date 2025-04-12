@@ -1,7 +1,14 @@
 <?php
 require_once __DIR__ . '/../../../router.php';
-session_start()
+require_once __DIR__ . '/../../../db.php';
+
+session_start();
+
+// Consulta a la base de datos
+$sql = "SELECT id, coste, fecha, estado FROM pedidos ORDER BY fecha DESC";
+$result = $conexion->query($sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,19 +21,17 @@ session_start()
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
 </head>
 <body> 
-    <?php
-    include '../../includes/navbar.php'
-    ?>
+    <?php include '../../includes/navbar.php'; ?>
+
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
-            <?php
-            include '../../includes/aside.php'
-            ?>
+            <?php include '../../includes/aside.php'; ?>
+
             <!-- Contenido principal -->
             <div class="col-md-10 orders-main-content p-4">
                 <h2 class="text-center mb-5">TODOS LOS PEDIDOS</h2>
-                
+
                 <div class="table-responsive orders-table-container">
                     <table class="table table-bordered orders-table">
                         <thead>
@@ -38,30 +43,20 @@ session_start()
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="order-row">
-                                <td>1</td>
-                                <td>$ 40.000.00</td>
-                                <td>2025-02-05</td>
-                                <td>Pendiente</td>
-                            </tr>
-                            <tr class="order-row">
-                                <td>1</td>
-                                <td>$ 40.000.00</td>
-                                <td>2025-02-05</td>
-                                <td>Pendiente</td>
-                            </tr>
-                            <tr class="order-row">
-                                <td>1</td>
-                                <td>$ 40.000.00</td>
-                                <td>2025-02-05</td>
-                                <td>Pendiente</td>
-                            </tr>
-                            <tr class="order-row">
-                                <td>1</td>
-                                <td>$ 40.000.00</td>
-                                <td>2025-02-05</td>
-                                <td>Pendiente</td>
-                            </tr>
+                            <?php if ($result && $result->num_rows > 0): ?>
+                                <?php while ($row = $result->fetch_assoc()): ?>
+                                    <tr class="order-row">
+                                        <td><?= $row['id'] ?></td>
+                                        <td>$ <?= number_format($row['coste'], 2, ',', '.') ?></td>
+                                        <td><?= $row['fecha'] ?></td>
+                                        <td><?= $row['estado'] ?></td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="4" class="text-center">No hay pedidos disponibles.</td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -69,10 +64,6 @@ session_start()
         </div>
     </div>
 
-    <?php
-    include '../../includes/footer.php'
-    ?>
-
-
+    <?php include '../../includes/footer.php'; ?>
 </body>
 </html>
