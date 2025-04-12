@@ -4,6 +4,12 @@
             <img src="<?= IMAGES ?>bookLogo.jpeg" alt="Logo" width="50" height="50" class="d-inline-block rounded-circle">
             <h1 class="brand-name">LIBRARIUM</h1>
         </a>
+        <?php if (!isset($_SESSION['user'])): ?>
+            <div class="d-flex">
+                <a href="<?= VIEWS ?>register.php" class="btn btn-outline-primary me-2">Registrarse</a>
+                <a href="<?= VIEWS ?>login.php" class="btn btn-primary">Ingresar</a>
+            </div>
+        <?php endif; ?>
     </div>
 </nav>
 
