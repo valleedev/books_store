@@ -5,7 +5,7 @@
             <a href="<?= USER ?>login.php" class="btn btn-primary mb-2 w-75">Ingresar</a>
             <a href="<?= USER ?>register.php" class="btn btn-secondary w-75">Registrarse</a>
         </div>
-        <!-- Mostrar opciones adicionales -->
+        <!-- Mostrar opciones adicionales --> 
         <hr>
         <div class="guest-options mt-3">
             <ul class="nav flex-column px-2">

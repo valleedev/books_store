@@ -1,25 +1,32 @@
 <?php
+session_start(); // Asegúrate de iniciar la sesión al principio del archivo
 
 $mensaje = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    
 
-    
-    $sql = "SELECT id, nombre, apellidos, email, password FROM usuarios WHERE email = '$email'";
-    $result = mysqli_query($conexion, $sql);
+    $sql = "SELECT id, nombre, apellidos, email, password FROM usuarios WHERE email = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if ($result && mysqli_num_rows($result) == 1) {
-        $usuario = mysqli_fetch_assoc($result);
-        
-        
-         if ($password === $usuario['password']) { //password_verify($password, $usuario['password'])
-            $_SESSION['usuario'] = [
-     
+    if ($result && $result->num_rows == 1) {
+        $usuario = $result->fetch_assoc();
+
+        // Verificar la contraseña
+        if ($password === $usuario['password']) { // Puedes usar password_verify si las contraseñas están hasheadas
+            // Crear la sesión con los datos del usuario
+            $_SESSION['user'] = [
+                'id' => $usuario['id'],
+                'nombre' => $usuario['nombre'],
+                'apellidos' => $usuario['apellidos'],
                 'email' => $usuario['email']
             ];
-            header("Location: admin/dashboard.php");
+
+            // Redirigir al dashboard o página principal
+            header("Location: ../../views/admin/dashboard.php");
             exit();
         } else {
             $mensaje = "Contraseña incorrecta.";

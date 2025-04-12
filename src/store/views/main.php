@@ -75,8 +75,6 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
 
             <div class="products">
                 <h2>Nuestros Productos</h2>
-                <button class="btn btn-pedido" data-bs-toggle="modal" data-bs-target="#pedidoModal">Iniciar
-                    Sesion</button>
                 <?php
                 // Mostrar mensaje de éxito si existe
                 if (isset($_SESSION['message'])) {

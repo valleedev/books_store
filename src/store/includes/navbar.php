@@ -13,8 +13,8 @@ $result = mysqli_query($conexion, $query);
         </a>
         <?php if (!isset($_SESSION['user'])): ?>
             <div class="d-flex">
-                <a href="<?= VIEWS ?>register.php" class="btn btn-outline-primary me-2">Registrarse</a>
-                <a href="<?= VIEWS ?>login.php" class="btn btn-primary">Ingresar</a>
+                <a href="<?= VIEWS ?>register.php" class="btn btn-secondary mx-2">Registrarse</a>
+                <a href="<?= VIEWS ?>login.php" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#pedidoModal">Iniciar Sesión</a>
             </div>
         <?php endif; ?>
     </div>
