@@ -1,5 +1,4 @@
 <?php
-session_start(); // Asegúrate de iniciar la sesión al principio del archivo
 
 $mensaje = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -20,8 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Crear la sesión con los datos del usuario
             $_SESSION['user'] = [
                 'id' => $usuario['id'],
-                'nombre' => $usuario['nombre'],
-                'apellidos' => $usuario['apellidos'],
+                'name' => $usuario['nombre'],
+                'lastname' => $usuario['apellidos'],
                 'email' => $usuario['email']
             ];
 
