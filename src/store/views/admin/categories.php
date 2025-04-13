@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../router.php';
 require_once __DIR__ . '/../../../db.php';
+session_start();
 
 // mensajes 
 
@@ -40,7 +41,7 @@ try {
                 <h2 class="text-center mb-4">Gestión de Categorías</h2>
 
                 <!-- Button to Open the Modal -->
-                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+                <button type="button" class="btn text-white mb-3 btn-create" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
                     Crear Nueva Categoría
                 </button>
 
@@ -48,9 +49,9 @@ try {
                     <thead>
                         <tr>
                             <th width="10%">ID</th>
-                            <th width="30%">NOMBRES</th>
-                            <th width="30%"></th>
-                            <th width="30%"></th>
+                            <th width="50%">NOMBRES</th>
+                            <th width="20%"></th>
+                            <th width="20%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,7 +62,7 @@ try {
                                     <td><?= htmlspecialchars($category['nombre']) ?></td>
                                     <td>
                                         <!-- Botón Editar -->
-                                        <button class="btn btn-edit w-100" data-bs-toggle="modal" data-bs-target="#editCategoryModal" 
+                                        <button class="btn btn-edit text-white w-100" data-bs-toggle="modal" data-bs-target="#editCategoryModal" 
                                             data-id="<?= $category['id'] ?>" 
                                             data-nombre="<?= htmlspecialchars($category['nombre']) ?>">
                                             Editar
@@ -71,7 +72,7 @@ try {
                                         <!-- Botón Eliminar -->
                                         <form method="POST" action="/books_store/src/store/bussines_logic/categories/delete_categories.php" onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?');">
                                             <input type="hidden" name="id" value="<?= $category['id'] ?>">
-                                            <button type="submit" class="btn btn-delete w-100">Eliminar</button>
+                                            <button type="submit" class="btn btn-delete text-white w-100">Eliminar</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -106,7 +107,7 @@ try {
             </div>
         </div>
     </div>
-</div>
+</div>  
 
 <!-- Modal for Editing a Category -->
 <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
