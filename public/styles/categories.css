@@ -3,16 +3,29 @@
 }
 
 .btn-edit {
-    background-color: #b8e0e6;
-    border-color: #b8e0e6;
-    color: #000;
+    background-color: #51ce57;
+}
+
+.btn-edit:hover {
+    background-color: #52c457;
 }
 
 .btn-delete {
-    background-color: #f5c6cb;
-    border-color: #f5c6cb;
-    color: #000;
+    background-color: #f5726c;
 }
+
+.btn-delete:hover {
+    background-color: #ff2318;
+}
+
+.btn-create {
+    background-color: #51ce57;
+}
+
+.btn-create:hover {
+    background-color: #52c457;
+}
+
 
 .table th {
     font-weight: bold;

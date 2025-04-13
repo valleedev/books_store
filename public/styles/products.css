@@ -2,9 +2,8 @@
     padding: 20px;
 }
 .btn-create {
-    background-color: #8ad28e;
+    background-color: #51ce57;
     color: #fff;
-    font-size: 14px;
     padding: 5px 10px;
     margin-bottom: 15px;
 }
@@ -15,7 +14,7 @@
     width: 100%;
 }
 .btn-edit {
-    background-color: #8ad28e;
+    background-color: #51ce57;
     color: #fff;
     width: 100%;
 }
@@ -24,12 +23,12 @@
 }
 
 .btn-create:hover {
-    background-color: #51ce57;
+    background-color: #52c457;
     color: #fff;
 }
 
 .btn-edit:hover {
-    background-color: #51ce57;
+    background-color: #52c457;
     color: #fff;
 }
 
