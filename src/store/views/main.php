@@ -2,8 +2,6 @@
 session_start(); // Asegúrate de iniciar la sesión al principio del archivo
 require_once __DIR__ . '/../../router.php';
 require_once __DIR__ . '/../../db.php';
-require_once __DIR__ . '/../bussines_logic/login/login.php';
-
 
 // Función para agregar productos al carrito
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
@@ -27,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
             break;
         }
     }
-
+ 
     // Si no está en el carrito, agrégalo
     if (!$found) {
         $_SESSION['cart'][] = [
@@ -53,7 +51,6 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,11 +58,12 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= STYLE ?>main.css">
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
-</head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 
+</head>
 <body>
-    <?php
-    include '../includes/navbar.php';
+    <?php 
+        include '../includes/navbar.php';
     ?>
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top" style="z-index: 999;">
@@ -103,16 +101,59 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
         <div class="main-content">
 
             <?php
-            include '../includes/aside.php';
+                include '../includes/aside.php';
             ?>
-
+            <?php if (!empty($message)): ?>
+            <div class="alert alert-info">
+                <?= htmlspecialchars($message) ?>
+            </div>
+        <?php endif; ?>
+                <button type="button" class="btn btn-create" data-bs-toggle="modal" data-bs-target="#createModal">
+                    Registrarse
+                </button>
+                <!-- Modal de Creación -->
+                <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="createModalLabel">Crear Producto</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form method="POST" action="../bussines_logic/auth/sign_in.php" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="name" name="name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="lastname" class="form-label">Apellidos</label>
+                                        <input type="text" class="form-control" id="lastname" name="lastname" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Correo electronico</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Contraseña</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Registrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            
             <div class="products">
                 <h2>Nuestros Productos</h2>
                 <?php
                 // Mostrar mensaje de éxito si existe
                 if (isset($_SESSION['message'])) {
                     echo '<div class="alert alert-success">' . $_SESSION['message'] . '</div>';
-                    unset($_SESSION['message']);
+                    unset($_SESSION['message']); 
                 }
                 ?>
                 <div class="product-grid">
@@ -145,12 +186,12 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
                                 <?php if (!empty($producto['imagen'])): ?>
                                 <?php echo "<td><img src='" . IMAGES . "uploads/products/" . $producto['imagen'] . "' alt='Imagen del producto' style='max-width:200px; max-height: 200px;'></td>" ?>
                                 <?php else: ?>
-                                    <div class="no-image">Sin imagen</div>
+                                <div class="no-image">Sin imagen</div>
                                 <?php endif; ?>
                                 <div class="product-title"><?= $producto['nombre'] ?></div>
                                 <div class="product-price">$ <?= number_format($precio_final, 0, ',', '.') ?></div>
                                 <?php if ($producto['oferta'] > 0): ?>
-                                    <div class="product-discount">Descuento: <?= $producto['oferta'] ?>%</div>
+                                <div class="product-discount">Descuento: <?= $producto['oferta'] ?>%</div>
                                 <?php endif; ?>
 
                                 <?php if (!$in_cart): ?>
@@ -177,45 +218,11 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
                 </div>
             </div>
         </div>
-
-        <!-- modal -->
-        <div class="modal fade" id="pedidoModal" tabindex="-1" aria-labelledby="pedidoModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="pedidoModalLabel">Iniciar Sesion</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <?php if (!empty($mensaje)): ?>
-                            <div class="alerta alerta-error">
-                                <?= $mensaje; ?>
-                            </div>
-                        <?php endif; ?>
-                        <form method="POST"">
-                    <div class=" mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+        <?php 
+            include '../includes/footer.php';
+        ?>
     </div>
-    </div>
-
-    <?php
-    include '../includes/footer.php';
-    ?>
-    </div>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>
