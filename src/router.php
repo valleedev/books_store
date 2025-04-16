@@ -6,6 +6,8 @@ define('INCLUDES', '/books_store/src/store/includes/');
 define('USER', '/books_store/src/store/views/user/');
 define('VIEWS', '/books_store/src/store/views/');
 define('PRODUCTS', '/books_store/src/store/views/admin/');
+define('CATEGORIES', '/books_store/src/store/views/admin/');
 define('MAIN', '/books_store/src/store/views/');
+define('BL', '/books_store/src/store/bussines_logic/')
 
 ?>

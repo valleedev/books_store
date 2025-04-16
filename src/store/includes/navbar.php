@@ -1,8 +1,5 @@
 <?php
 require_once __DIR__ . '/../../db.php';
-
-$query = "SELECT id, nombre FROM categorias";
-$result = mysqli_query($conexion, $query);
 ?>
 
 <nav class="navbar header">
@@ -11,32 +8,73 @@ $result = mysqli_query($conexion, $query);
             <img src="<?= IMAGES ?>bookLogo.jpeg" alt="Logo" width="50" height="50" class="d-inline-block rounded-circle">
             <h1 class="brand-name">LIBRARIUM</h1>
         </a>
+        <?php if (!isset($_SESSION['user'])): ?>
+            <div class="d-flex">
+                <a class="btn btn-secondary mx-2" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</a>
+                <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar Sesión</a>
+            </div>
+        <?php endif; ?>
     </div>
 </nav>
-
-<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top" style="z-index: 999;">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-            <ul class="navbar-nav nav-underline">
-                <li class="nav-item">
-                    <a class="nav-link active" href="main.php">Todos</a>
-                </li>
-                <?php
-                if ($result && mysqli_num_rows($result) > 0) {
-                    while ($categoria = mysqli_fetch_assoc($result)) {
-                        echo '<li class="nav-item">';
-                        echo '<a class="nav-link" href="main.php?categoria_id=' . $categoria['id'] . '">' . htmlspecialchars($categoria['nombre']) . '</a>';
-                        echo '</li>';
-                    }
-                } else {
-                    echo '<li class="nav-item"><a class="nav-link" href="#">Sin categorías</a></li>';
-                }
-                ?>
-            </ul>
+<!-- Modal de Creación -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createModalLabel">Registrarse en Librarium</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="../bussines_logic/auth/sign_in.php" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="lastname" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="lastname" name="lastname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electronico</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </div>
+            </form>
         </div>
     </div>
-</nav>
+</div>
+<!-- Modal de Login -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="createModalLabel">Loguearse</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="../bussines_logic/login/login.php" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electronico</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">loguear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
