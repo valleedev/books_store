@@ -63,7 +63,7 @@ $result = $conexion->query($sql);
             </div>
         </div>
     </div>
-
     <?php include '../../includes/footer.php'; ?>
+
 </body>
 </html>

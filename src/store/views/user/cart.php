@@ -6,6 +6,7 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,7 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
     <link rel="stylesheet" href="<?= STYLE ?>cart.css">
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
 </head>
+
 <body>
     <?php
     include '../../includes/navbar.php'
@@ -26,93 +28,88 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
             <?php
             include '../../includes/aside.php'
             ?>
-            
+
             <!-- Main Content -->
-            <div class="col-md-10 main-content">
-                <h1>Carrito de Compras</h1>
-                
-                <!-- Column Headers -->
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <h5>Nombre</h5>
+            <div class="col-md-10">
+                <section class="mb-5">
+                    <h2 class="text-center py-4">Carrito de Compras</h2>
+
+                    <!-- Encabezados de columnas -->
+                    <div class="row mb-4 border py-2 bg-light fw-bold text-center">
+                        <div class="col-md-2">Imagen</div>
+                        <div class="col-md-4 text-start">Nombre</div>
+                        <div class="col-md-2">Precio</div>
+                        <div class="col-md-2">Cantidad</div>
+                        <div class="col-md-2">Acciones</div>
                     </div>
-                    <div class="col-md-2 text-center">
-                        <h5>Precio</h5>
-                    </div>
-                    <div class="col-md-2 text-center">
-                        <h5>Cantidad</h5>
-                    </div>
-                    <div class="col-md-2 text-center">
-                        <!-- Empty for alignment -->
-                    </div>
-                </div>
-                
-                <!-- Products -->
-                <?php if (!empty($cart)): ?>
-                    <?php foreach ($cart as $index => $product): ?>
-                        <div class="row product-row">
-                            <div class="col-md-2">
-                                <div class="product-image">
-                                <?php echo "<td><img src='" . IMAGES . "uploads/products/" . $product['image'] . "' alt='Imagen del producto' style='max-width:150px; max-height: 150px;'></td>" ?>
+
+                    <!-- Productos -->
+                    <?php if (!empty($cart)): ?>
+                        <?php foreach ($cart as $index => $product): ?>
+                            <div class="row align-items-center py-3 border-bottom">
+                                <div class="col-md-2 text-center">
+                                    <img src="<?= IMAGES . "uploads/products/" . htmlspecialchars($product['image']) ?>" alt="Imagen del producto" class="img-fluid" style="max-height: 100px;">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <p class="mb-0"><?= htmlspecialchars($product['name']) ?></p>
+                                </div>
+
+                                <div class="col-md-2 text-center">
+                                    <p class="mb-0">$ <?= number_format($product['price'], 0, ',', '.') ?></p>
+                                </div>
+
+                                <div class="col-md-2 text-center">
+                                    <form action="../../bussines_logic/cart/update_cart.php" method="POST" class="d-inline">
+                                        <input type="hidden" name="index" value="<?= $index ?>">
+                                        <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary">-</button>
+                                    </form>
+                                    <span class="mx-2"><?= htmlspecialchars($product['quantity']) ?></span>
+                                    <form action="../../bussines_logic/cart/update_cart.php" method="POST" class="d-inline">
+                                        <input type="hidden" name="index" value="<?= $index ?>">
+                                        <button type="submit" name="action" value="increase" class="btn btn-sm btn-outline-secondary">+</button>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-2 text-center">
+                                    <form action="../../bussines_logic/cart/update_cart.php" method="POST">
+                                        <input type="hidden" name="index" value="<?= $index ?>">
+                                        <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger">ELIMINAR</button>
+                                    </form>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <p><?= htmlspecialchars($product['name']) ?></p>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <p>$ <?= number_format($product['price'], 0, ',', '.') ?></p>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <!-- Botón para disminuir cantidad -->
-                                <form action="../../bussines_logic/cart/update_cart.php" method="POST" class="d-inline">
-                                    <input type="hidden" name="index" value="<?= $index ?>">
-                                    <button type="submit" name="action" value="decrease" class="btn btn-sm btn-outline-secondary">-</button>
-                                </form>
-                                <span><?= htmlspecialchars($product['quantity']) ?></span>
-                                <!-- Botón para aumentar cantidad -->
-                                <form action="../../bussines_logic/cart/update_cart.php" method="POST" class="d-inline">
-                                    <input type="hidden" name="index" value="<?= $index ?>">
-                                    <button type="submit" name="action" value="increase" class="btn btn-sm btn-outline-secondary">+</button>
-                                </form>
-                            </div>
-                            <div class="col-md-2 text-center">
-                                <form action="../../bussines_logic/cart/update_cart.php" method="POST" class="d-inline">
-                                    <input type="hidden" name="index" value="<?= $index ?>">
-                                    <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger">ELIMINAR</button>
-                                </form>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="row py-4">
+                            <div class="col-12 text-center">
+                                <p class="text-muted">No hay productos en el carrito.</p>
                             </div>
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <p>No hay productos en el carrito.</p>
+                    <?php endif; ?>
+
+                    <!-- Acciones del carrito -->
+                    <div class="row border-top pt-4 mt-4">
+                        <div class="col-md-4 d-flex justify-content-center align-items-center">
+                            <form action="../../bussines_logic/cart/update_cart.php" method="POST">
+                                <button type="submit" name="action" value="empty" class="btn btn-outline-danger">VACIAR CARRITO</button>
+                            </form>
+                        </div>
+
+                        <div class="col-md-4 d-flex justify-content-center align-items-center">
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#pedidoModal">HACER PEDIDO</button>
+                        </div>
+
+                        <div class="col-md-4 d-flex justify-content-center align-items-center">
+                            <h5 class="mb-0 text-center">
+                                Precio Total: $ <?= number_format(array_sum(array_map(fn($p) => $p['price'] * $p['quantity'], $cart)), 0, ',', '.') ?>
+                            </h5>
                         </div>
                     </div>
-                <?php endif; ?>
-                
-                <!-- Cart Actions -->
-                <div class="row cart-actions">
-                    <div class="col-md-4">
-                        <form action="../../bussines_logic/cart/update_cart.php" method="POST">
-                            <button type="submit" name="action" value="empty" class="btn btn-vaciar btn-danger">VACIAR CARRITO</button>
-                        </form>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <h5>
-                            Precio Total: 
-                            $ <?= number_format(array_sum(array_map(fn($p) => $p['price'] * $p['quantity'], $cart)), 0, ',', '.') ?>
-                        </h5>
-                    </div>
-                    <div class="col-md-4 text-end">
-                        <!-- Button to trigger modal -->
-                        <button class="btn btn-pedido" data-bs-toggle="modal" data-bs-target="#pedidoModal">HACER PEDIDO</button>
-                    </div>
-                </div>
+                </section>
             </div>
         </div>
     </div>
-    
+
     <!-- Modal -->
     <div class="modal fade" id="pedidoModal" tabindex="-1" aria-labelledby="pedidoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -155,12 +152,13 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
             </div>
         </div>
     </div>
-    
-    <?php
-    include '../../includes/footer.php'
-    ?>
-    
+            <?php
+            include '../../includes/footer.php'
+            ?>
+
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
