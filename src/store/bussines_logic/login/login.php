@@ -1,5 +1,6 @@
 <?php
-
+require_once __DIR__ . '/../../../db.php';
+session_start();
 $mensaje = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
@@ -10,18 +11,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result && mysqli_num_rows($result) == 1) {
         $usuario = mysqli_fetch_assoc($result);
 
-        // Verificación de contraseña (idealmente deberías usar password_hash en la BD y password_verify aquí)
-        if ($password === $usuario['password']) { 
-            $_SESSION['usuario'] = [
+        if (password_verify($password, $usuario['password'])) { 
+            $_SESSION['user'] = [
+                'name' => $usuario['nombre'],
                 'email' => $usuario['email'],
                 'rol' => $usuario['rol']
             ];
 
             // Redirección según el rol
             if ($usuario['rol'] === 'admin') {
-                header("Location: admin/dashboard.php");
+                header("Location: ../../views/admin/dashboard.php");
             } else {
-                header("Location: main.php");
+                header("Location: ../../views/main.php");
             }
             exit();
         } else {
@@ -31,4 +32,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mensaje = "El usuario no existe.";
     }
 }
+echo $mensaje
 ?>
