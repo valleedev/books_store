@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (password_verify($password, $usuario['password'])) { 
             $_SESSION['user'] = [
+                'id' => $usuario['id'],
                 'name' => $usuario['nombre'],
                 'email' => $usuario['email'],
                 'rol' => $usuario['rol']

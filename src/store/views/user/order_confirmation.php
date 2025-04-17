@@ -1,6 +1,18 @@
 <?php
 require_once __DIR__ . '/../../../router.php';
+require_once __DIR__ . '/../../../db.php';
+
+session_start();
+
+// Verificar si existe información del pedido en la sesión
+if (!isset($_SESSION['pedido'])) {
+    header("Location: cart.php");
+    exit();
+}
+
+$pedido = $_SESSION['pedido'];
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -23,53 +35,72 @@ require_once __DIR__ . '/../../../router.php';
             include '../../includes/aside.php'
             ?>
             
-            
             <!-- Contenido principal -->
             <div class="col-md-9 main-content">
-                <h1>Tu pedido se ha confirmado</h1>
-                
-                <div class="order-details">
-                    <p>Tu pedido ha sido guardado con éxito, una vez que realices la transferencia bancaria a la cuenta 7382947289239ADD con precio total del pedido, será procesado y enviado.</p>
-                    
-                    <h3>Datos del pedido</h3>
-                    <p>Número de pedido: 2</p>
-                    <p>Total a pagar: $24.000.00</p>
-                    <p>Productos:</p>
-                </div>
-                
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th style="width: 20%"></th>
-                                <th>Nombre</th>
-                                <th>Precio</th>
-                                <th>Cantidad</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="product-image">
-                                        Foto producto
-                                    </div>
-                                </td>
-                                <td>Nombre_producto</td>
-                                <td>$ 20.000</td>
-                                <td>Num Cantidad</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="product-image">
-                                        Foto producto
-                                    </div>
-                                </td>
-                                <td>Nombre_producto</td>
-                                <td>$ 20.000</td>
-                                <td>Num cantidad</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="card my-5">
+                    <div class="card-header bg-success text-white">
+                        <h1 class="mb-0">¡Tu pedido se ha confirmado!</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="order-details">
+                            <div class="alert alert-info">
+                                <p>Tu pedido ha sido guardado con éxito. Una vez que realices la transferencia bancaria a la cuenta <strong>7382947289239ADD</strong> con el precio total del pedido, será procesado y enviado.</p>
+                            </div>
+                            
+                            <h3>Datos del pedido</h3>
+                            <ul class="list-group mb-4">
+                                <li class="list-group-item"><strong>Número de pedido:</strong> <?= $pedido['id'] ?></li>
+                                <li class="list-group-item"><strong>Total a pagar:</strong> $<?= number_format($pedido['coste'], 0, ',', '.') ?></li>
+                                <li class="list-group-item"><strong>Provincia:</strong> <?= htmlspecialchars($pedido['provincia']) ?></li>
+                                <li class="list-group-item"><strong>Localidad:</strong> <?= htmlspecialchars($pedido['localidad']) ?></li>
+                                <li class="list-group-item"><strong>Dirección:</strong> <?= htmlspecialchars($pedido['direccion']) ?></li>
+                                <?php if (isset($pedido['telefono'])): ?>
+                                <li class="list-group-item"><strong>Teléfono:</strong> <?= htmlspecialchars($pedido['telefono']) ?></li>
+                                <?php endif; ?>
+                                <li class="list-group-item"><strong>Fecha:</strong> <?= date('d/m/Y', strtotime($pedido['fecha'])) ?> a las <?= $pedido['hora'] ?></li>
+                            </ul>
+                        </div>
+                        
+                        <h3>Productos:</h3>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%">Imagen</th>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($pedido['productos'] as $producto): ?>
+                                    <tr>
+                                        <td>
+                                            <div class="product-image">
+                                                <img src="<?= IMAGES . "uploads/products/" . htmlspecialchars($producto['image']) ?>" alt="<?= htmlspecialchars($producto['name']) ?>" class="img-fluid" style="max-height: 80px;">
+                                            </div>
+                                        </td>
+                                        <td><?= htmlspecialchars($producto['name']) ?></td>
+                                        <td>$ <?= number_format($producto['price'], 0, ',', '.') ?></td>
+                                        <td><?= $producto['quantity'] ?></td>
+                                        <td>$ <?= number_format($producto['price'] * $producto['quantity'], 0, ',', '.') ?></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4" class="text-end"><strong>Total:</strong></td>
+                                        <td><strong>$ <?= number_format($pedido['coste'], 0, ',', '.') ?></strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <a href="<?= VIEWS ?>main.php" class="btn btn-primary">Volver a la tienda</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

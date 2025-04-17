@@ -1,9 +1,17 @@
 <?php
 require_once __DIR__ . '/../../../router.php';
+require_once __DIR__ . '/../../../db.php';
 
 session_start();
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+
+// Calcular el coste total del carrito
+$total_cost = 0;
+foreach ($cart as $product) {
+    $total_cost += $product['price'] * $product['quantity'];
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -96,12 +104,16 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                         </div>
 
                         <div class="col-md-4 d-flex justify-content-center align-items-center">
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#pedidoModal">HACER PEDIDO</button>
+                            <?php if (!empty($cart)): ?>
+                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#pedidoModal">HACER PEDIDO</button>
+                            <?php else: ?>
+                                <button class="btn btn-success" disabled>HACER PEDIDO</button>
+                            <?php endif; ?>
                         </div>
 
                         <div class="col-md-4 d-flex justify-content-center align-items-center">
                             <h5 class="mb-0 text-center">
-                                Precio Total: $ <?= number_format(array_sum(array_map(fn($p) => $p['price'] * $p['quantity'], $cart)), 0, ',', '.') ?>
+                                Precio Total: $ <?= number_format($total_cost, 0, ',', '.') ?>
                             </h5>
                         </div>
                     </div>
@@ -119,18 +131,18 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="procesar_pedido.php" method="POST">
+                    <form action="process_order.php" method="POST">
+                        <div class="mb-3">
+                            <label for="provincia" class="form-label">Provincia</label>
+                            <input type="text" class="form-control" id="provincia" name="provincia" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="localidad" class="form-label">Localidad</label>
+                            <input type="text" class="form-control" id="localidad" name="localidad" required>
+                        </div>
                         <div class="mb-3">
                             <label for="direccion" class="form-label">Dirección</label>
                             <input type="text" class="form-control" id="direccion" name="direccion" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ciudad" class="form-label">Ciudad</label>
-                            <input type="text" class="form-control" id="ciudad" name="ciudad" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="departamento" class="form-label">Departamento</label>
-                            <input type="text" class="form-control" id="departamento" name="departamento" required>
                         </div>
                         <div class="mb-3">
                             <label for="contacto" class="form-label">Nro de Contacto</label>
@@ -141,21 +153,20 @@ $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
                                     <option value="+44">+44 (Reino Unido)</option>
                                     <option value="+34">+34 (España)</option>
                                     <option value="+52">+52 (México)</option>
-                                    <!-- Agrega más prefijos según sea necesario -->
                                 </select>
                                 <input type="number" class="form-control" id="contacto" name="contacto" placeholder="Número de contacto" required>
                             </div>
                         </div>
+                        <input type="hidden" name="coste" value="<?= $total_cost ?>">
                         <button type="submit" class="btn btn-primary">Confirmar Pedido</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-            <?php
-            include '../../includes/footer.php'
-            ?>
-
+    <?php
+    include '../../includes/footer.php'
+    ?>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
