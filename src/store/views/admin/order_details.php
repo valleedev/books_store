@@ -69,7 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
     <title>LIBRARIUM - Detalle del Pedido</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="<?= STYLE ?>dashboard.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
 </head>
 
@@ -82,12 +85,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
             <?php include '../../includes/aside.php' ?>
 
             <!-- Contenido principal -->
-            <div class="col-md-10 main-content p-4">
+            <div class="col-md-10 main-content p-4 animate__animated animate__fadeIn animate__faster">
                 <div class="card mb-4">
-                    <div class="card-header bg-dark text-white text-center">
-                        <h4>Detalle del Pedido</h4>
+                    <div class="card-header bg-success text-white text-center animate__animated animate__fadeInDown animate__faster">
+                        <h3>Detalle del Pedido</h3>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body ">
                         <!-- Cambiar estado del pedido -->
                         <div class="mb-4">
                             <h5>Cambiar estado del pedido</h5>
@@ -105,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <button type="submit" class="btn btn-primary">Cambiar estado</button>
+                                    <button type="submit" class="btn btn-light border">Cambiar estado</button>
                                 </div>
                             </form>
                         </div>
@@ -117,7 +120,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
                                 <p class="mb-1"><strong>Dirección:</strong> <?= htmlspecialchars($pedido['direccion']) ?></p>
                                 <p class="mb-1"><strong>Provincia:</strong> <?= htmlspecialchars($pedido['provincia']) ?></p>
                                 <p class="mb-1"><strong>Departamento:</strong> <?= htmlspecialchars($pedido['localidad']) ?></p>
-                                <p class="mb-1"><strong>Fecha:</strong> <?= htmlspecialchars($pedido['fecha']) ?></p>
                             </div>
                         </div>
 

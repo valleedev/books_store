@@ -5,7 +5,6 @@ require_once __DIR__ . '/../../../db.php';
 session_start();
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 
-// Calcular el coste total del carrito
 $total_cost = 0;
 foreach ($cart as $product) {
     $total_cost += $product['price'] * $product['quantity'];

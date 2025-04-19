@@ -30,7 +30,7 @@ $result = $conexion->query($sql);
 
             <!-- Contenido principal -->
             <div class="col-md-10 orders-main-content p-4">
-                <h2 class="text-center mb-5">TODOS LOS PEDIDOS</h2>
+                <h2 class="text-center mb-5">Todos los Pedidos</h2>
 
                 <div class="table-responsive orders-table-container">
                     <table class="table table-bordered orders-table">

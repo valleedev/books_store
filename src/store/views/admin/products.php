@@ -32,6 +32,10 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
     <link rel="stylesheet" href="<?= STYLE ?>products.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <title>LIBRARIUM - Gestión de Productos</title>
 </head>
 
@@ -49,10 +53,10 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
             ?>
 
             <div class="col-md-10 main-content">
-                <h1 class="text-center">Gestión de Productos</h1>
+                <h1 class="text-center animate__animated animate__fadeInDown animate__faster">Gestión de Productos</h1>
 
                 <div class="mb-3">
-                    <button type="button" class="btn btn-create" data-bs-toggle="modal" data-bs-target="#createModal">
+                    <button type="button" class="btn btn-create animate__animated animate__fadeIn animate__faster" data-bs-toggle="modal" data-bs-target="#createModal">
                         Crear Producto
                     </button>
                 </div>
@@ -194,7 +198,7 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
                     </div>
                 </div>
 
-                <table class="table table-bordered align-middle text-center">
+                <table class="table table-bordered align-middle text-center animate__animated animate__fadeIn animate__faster">
                     <thead class="table">
                         <tr class="table-light">
                             <th scope="col" width="10%">Imagen</th>

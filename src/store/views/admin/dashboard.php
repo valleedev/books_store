@@ -26,8 +26,11 @@ $pedidos = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIBRARIUM - Sistema de Gestión</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
-    <link rel="stylesheet" href="<?= STYLE ?>dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">  
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
     <style>
         .selectable-row {
@@ -53,11 +56,11 @@ $pedidos = mysqli_fetch_all($result, MYSQLI_ASSOC);
             ?>
             <!-- Contenido principal -->
             <div class="col-md-10 main-content p-4">
-                <h2 class="text-center mb-5">GESTIONAR PEDIDOS</h2>
+                <h1 class="text-center mb-5  animate__animated animate__fadeInDown animate__faster">Gestionar Pedidos</h1>
                 
                 <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead class="table-dark">
+                    <table class="table table-hover table-bordered animate__animated animate__fadeIn">
+                        <thead class="table-light">
                             <tr>
                                 <th>Nro Pedido</th>
                                 <th>Precio</th>

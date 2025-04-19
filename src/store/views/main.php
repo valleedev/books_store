@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         ];
     }
 
-    $_SESSION['message'] = "Producto agregado al carrito correctamente.";
+    $_SESSION['mensaje'] = "Producto agregado al carrito correctamente.";
     header("Location: " . $_SERVER['PHP_SELF']);
     exit;
 }
@@ -64,11 +64,7 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
     include '../includes/navbar.php';
     ?>
 
-
-
     <div class="container-fluid">
-
-
 
         <div class="row">
             <!-- Aside -->
@@ -76,12 +72,11 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
             include '../includes/aside.php';
             ?>
 
-
             <!-- Contenido Principal -->
 
-            <?php if (!empty($message)): ?>
+            <?php if (!empty($mensaje)): ?>
                 <div class="alert alert-info">
-                    <?= htmlspecialchars($message) ?>
+                    <?= htmlspecialchars($mensaje) ?>
                 </div>
             <?php endif; ?>
 
@@ -118,9 +113,9 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
                 <h2 class="text-center pb-3">Nuestros Libros</h2>
 
                 <?php
-                if (isset($_SESSION['message'])) {
-                    echo '<div class="alert alert-success">' . $_SESSION['message'] . '</div>';
-                    unset($_SESSION['message']);
+                if (isset($_SESSION['mensaje'])) {
+                    echo '<div class="alert alert-success">' . $_SESSION['mensaje'] . '</div>';
+                    unset($_SESSION['mensaje']);
                 }
                 ?>
 
