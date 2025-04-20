@@ -18,11 +18,13 @@ foreach ($cart as $product) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIBRARIUM - Carrito de Compras</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Estilos personalizados -->
     <link rel="stylesheet" href="<?= STYLE ?>cart.css">
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
 </head>
 
 <body>
@@ -31,18 +33,15 @@ foreach ($cart as $product) {
     ?>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
             <?php
             include '../../includes/aside.php'
             ?>
 
-            <!-- Main Content -->
             <div class="col-md-10">
                 <section class="mb-5">
-                    <h2 class="text-center py-4">Carrito de Compras</h2>
+                    <h2 class="text-center py-4 animate__animated animate__fadeInDown animate__faster">Carrito de Compras</h2>
 
-                    <!-- Encabezados de columnas -->
-                    <div class="row mb-4 border py-2 bg-light fw-bold text-center">
+                    <div class="row mb-4 border py-2 bg-light fw-bold text-center animate__animated animate__fadeIn animate__faster">
                         <div class="col-md-2">Imagen</div>
                         <div class="col-md-4 text-start">Nombre</div>
                         <div class="col-md-2">Precio</div>
@@ -50,10 +49,9 @@ foreach ($cart as $product) {
                         <div class="col-md-2">Acciones</div>
                     </div>
 
-                    <!-- Productos -->
                     <?php if (!empty($cart)): ?>
                         <?php foreach ($cart as $index => $product): ?>
-                            <div class="row align-items-center py-3 border-bottom">
+                            <div class="row align-items-center py-3 border-bottom animate__animated animate__fadeIn animate__faster">
                                 <div class="col-md-2 text-center">
                                     <img src="<?= IMAGES . "uploads/products/" . htmlspecialchars($product['image']) ?>" alt="Imagen del producto" class="img-fluid" style="max-height: 100px;">
                                 </div>
@@ -94,8 +92,7 @@ foreach ($cart as $product) {
                         </div>
                     <?php endif; ?>
 
-                    <!-- Acciones del carrito -->
-                    <div class="row border-top pt-4 mt-4">
+                    <div class="row border-top pt-4 mt-4 animate__animated animate__fadeIn animate__faster">
                         <div class="col-md-4 d-flex justify-content-center align-items-center">
                             <form action="../../bussines_logic/cart/update_cart.php" method="POST">
                                 <button type="submit" name="action" value="empty" class="btn btn-outline-danger">VACIAR CARRITO</button>
@@ -121,7 +118,6 @@ foreach ($cart as $product) {
         </div>
     </div>
 
-    <!-- Modal -->
     <div class="modal fade" id="pedidoModal" tabindex="-1" aria-labelledby="pedidoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -167,7 +163,6 @@ foreach ($cart as $product) {
     include '../../includes/footer.php'
     ?>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

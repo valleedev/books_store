@@ -32,29 +32,24 @@ try {
 </head>
 <body>
     
-    <!-- Encabezado -->
     <?php include '../../includes/navbar.php'; ?>
 
     <main class="container-fluid">
         <div class="row">
             
-            <!-- Barra lateral -->
             <?php include '../../includes/aside.php'; ?>
 
-            <!-- Sección principal -->
             <section class="col-md-10 main-content">
                 <header class="text-center mb-4 animate__animated animate__fadeInDown animate__faster">
                     <h1>Gestión de Categorías</h1>
                 </header>
 
-                <!-- Botón para crear nueva categoría -->
                 <div class="mb-3">
                     <button type="button" class="btn btn-create animate__animated animate__fadeIn animate__faster" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
                         Crear Nueva Categoría
                     </button>
                 </div>
 
-                <!-- Tabla de categorías -->
                 <div class="table-responsive">
                     <table class="table table-bordered animate__animated animate__fadeIn animate__faster">
                         <thead class="table-light">
@@ -101,7 +96,6 @@ try {
         </div>
     </main>
 
-    <!-- Modal: Crear nueva categoría -->
     <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -122,7 +116,6 @@ try {
         </div>
     </div>
 
-    <!-- Modal: Editar categoría -->
     <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -144,10 +137,8 @@ try {
         </div>
     </div>
 
-    <!-- Pie de página -->
     <?php include '../../includes/footer.php'; ?>
 
-    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     
 </body>

@@ -13,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['edit_product'])) {
     $upload_successful = true;
 
     if (!empty($category) && !empty($name) && !empty($description) && !empty($price) && !empty($stock) && !empty($offer)) {
-        // Insertar el producto sin la imagen
         $sql = "INSERT INTO productos (categoria_id, nombre, descripcion, precio, stock, oferta, fecha, imagen) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, '')";
 
@@ -21,9 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['edit_product'])) {
         $stmt->bind_param("issdiis", $category, $name, $description, $price, $stock, $offer, $date);
 
         if ($stmt->execute()) {
-            $product_id = $stmt->insert_id; // Obtener el ID del producto insertado
+            $product_id = $stmt->insert_id;
 
-            // Procesar la imagen si se subió
             if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
                 $upload_dir = __DIR__ . '/../../../../public/images/uploads/products/';
 
@@ -41,13 +39,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['edit_product'])) {
                     $upload_successful = false;
                     $_SESSION['error_message'] = "El archivo es demasiado grande. Máximo 2MB.";
                 } else {
-                    $unique_name = $product_id . '.' . $file_ext; // Usar el ID del producto como nombre de archivo
+                    $unique_name = $product_id . '.' . $file_ext;
                     $target_file = $upload_dir . $unique_name;
 
                     if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
                         $image = $unique_name;
 
-                        // Actualizar el producto con el nombre de la imagen
                         $update_sql = "UPDATE productos SET imagen = ? WHERE id = ?";
                         $update_stmt = $conexion->prepare($update_sql);
                         $update_stmt->bind_param("si", $image, $product_id);

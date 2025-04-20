@@ -3,7 +3,6 @@ session_start();
 require_once __DIR__ . '/../../router.php';
 require_once __DIR__ . '/../../db.php';
 
-// Agregar productos al carrito
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     $product_id = $_POST['product_id'];
     $product_image = $_POST['product_image'];
@@ -55,6 +54,10 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= STYLE ?>main.css">
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
 
 </head>
@@ -67,12 +70,9 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
     <div class="container-fluid">
 
         <div class="row">
-            <!-- Aside -->
             <?php
             include '../includes/aside.php';
             ?>
-
-            <!-- Contenido Principal -->
 
             <?php if (!empty($mensaje)): ?>
                 <div class="alert alert-info">
@@ -110,7 +110,7 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
                     </div>
                 </nav>
                 
-                <h2 class="text-center pb-3">Nuestros Libros</h2>
+                <h2 class="text-center pb-3 animate__animated animate__fadeInDown animate__faster">Nuestros Libros</h2>
 
                 <?php
                 if (isset($_SESSION['mensaje'])) {
@@ -119,7 +119,7 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
                 }
                 ?>
 
-                <div class="row g-4 p-4">
+                <div class="row g-4 p-4 animate__animated animate__fadeIn animate__faster">
                     <?php
                     if ($categoria_id) {
                         $query = "SELECT id, nombre, precio, imagen, oferta FROM productos WHERE categoria_id = $categoria_id ORDER BY id DESC";
@@ -162,17 +162,23 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
                                         </div>
                                     </a>
                                     <div class="card-footer bg-white border-0 text-center">
-                                        <?php if (!$in_cart): ?>
-                                            <form method="POST">
-                                                <input type="hidden" name="add_to_cart" value="1">
-                                                <input type="hidden" name="product_id" value="<?= $producto['id'] ?>">
-                                                <input type="hidden" name="product_image" value="<?= $producto['imagen'] ?>">
-                                                <input type="hidden" name="product_name" value="<?= $producto['nombre'] ?>">
-                                                <input type="hidden" name="product_price" value="<?= $precio_final ?>">
-                                                <button type="submit" class="btn btn-primary btn-sm">Agregar al carrito</button>
-                                            </form>
+                                        <?php if (isset($_SESSION['user'])): ?>
+                                            <?php if (!$in_cart): ?>
+                                                <form method="POST">
+                                                    <input type="hidden" name="add_to_cart" value="1">
+                                                    <input type="hidden" name="product_id" value="<?= $producto['id'] ?>">
+                                                    <input type="hidden" name="product_image" value="<?= $producto['imagen'] ?>">
+                                                    <input type="hidden" name="product_name" value="<?= $producto['nombre'] ?>">
+                                                    <input type="hidden" name="product_price" value="<?= $precio_final ?>">                                                
+                                                    <button type="submit" class="btn btn-primary btn-sm">Agregar al carrito</button>
+                                                </form>
+                                            <?php else: ?>
+                                                <span class="badge text-bg-success">Ya en el carrito</span>
+                                            <?php endif; ?>
                                         <?php else: ?>
-                                            <span class="badge text-bg-success">Ya en el carrito</span>
+                                            <button type="button" class="btn btn-primary btn-sm btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                                Agregar al Carrito
+                                            </button>
                                         <?php endif; ?>
                                     </div>
                                 </article>
@@ -191,6 +197,59 @@ $categoria_id = isset($_GET['categoria_id']) && is_numeric($_GET['categoria_id']
     include '../includes/footer.php';
     ?>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 </body>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if there's a login error parameter in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('login_error')) {
+        // Open the login modal
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    <?php if (isset($_SESSION['welcome_message'])): ?>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Registro Exitoso!',
+            text: '<?= addslashes($_SESSION['welcome_message']) ?>',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Continuar'
+        });
+        <?php unset($_SESSION['welcome_message']); ?>
+    <?php endif; ?>
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('login_error')) {
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+    }
+    
+    if (urlParams.has('register_error')) {
+        const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+        registerModal.show();
+    }
+});
+</script>
+
+<?php if (isset($_SESSION['bienvenida'])): ?>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '<?= $_SESSION['bienvenida'] ?>',
+            text: 'Has iniciado sesión correctamente.',
+            confirmButtonText: 'Continuar'
+        });
+    </script>
+    <?php unset($_SESSION['bienvenida']); ?>
+<?php endif; ?>
+
 
 </html>

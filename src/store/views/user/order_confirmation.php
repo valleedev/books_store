@@ -4,7 +4,6 @@ require_once __DIR__ . '/../../../db.php';
 
 session_start();
 
-// Verificar si existe información del pedido en la sesión
 if (!isset($_SESSION['pedido'])) {
     header("Location: cart.php");
     exit();
@@ -19,8 +18,11 @@ $pedido = $_SESSION['pedido'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIBRARIUM - Confirmación de Pedido</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <link rel="stylesheet" href="<?= STYLE ?>order_confirmation.css">
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
 </head>
@@ -30,18 +32,16 @@ $pedido = $_SESSION['pedido'];
     ?>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
             <?php
             include '../../includes/aside.php'
             ?>
             
-            <!-- Contenido principal -->
             <div class="col-md-9 main-content">
                 <div class="card my-5">
-                    <div class="card-header bg-success text-white">
+                    <div class="card-header bg-success text-white animate__animated animate__fadeInDown animate__faster">
                         <h1 class="mb-0">¡Tu pedido se ha confirmado!</h1>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body animate__animated animate__fadeIn animate__faster">
                         <div class="order-details">
                             <div class="alert alert-info">
                                 <p>Tu pedido ha sido guardado con éxito. Una vez que realices la transferencia bancaria a la cuenta <strong>7382947289239ADD</strong> con el precio total del pedido, será procesado y enviado.</p>
@@ -110,7 +110,6 @@ $pedido = $_SESSION['pedido'];
     include '../../includes/footer.php'
     ?>
     
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

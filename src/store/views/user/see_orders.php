@@ -4,9 +4,22 @@ require_once __DIR__ . '/../../../db.php';
 
 session_start();
 
-// Consulta a la base de datos
-$sql = "SELECT id, coste, fecha, estado FROM pedidos ORDER BY fecha DESC";
-$result = $conexion->query($sql);
+$result = null;
+
+if (isset($_SESSION['user']['id'])) {
+    $user_id = $_SESSION['user']['id'];
+
+    $sql = "SELECT id, coste, fecha, estado FROM pedidos WHERE usuario_id = ? ORDER BY fecha DESC";
+    $stmt = $conexion->prepare($sql);
+    
+    if ($stmt === false) {
+        echo "Error en la preparación de la consulta.";
+        exit;
+    }
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,20 +32,22 @@ $result = $conexion->query($sql);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
     <link rel="stylesheet" href="<?= STYLE ?>dashboard.css">
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
 </head>
 <body> 
     <?php include '../../includes/navbar.php'; ?>
 
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
             <?php include '../../includes/aside.php'; ?>
 
-            <!-- Contenido principal -->
             <div class="col-md-10 orders-main-content p-4">
-                <h2 class="text-center mb-5">Todos los Pedidos</h2>
+                <h2 class="text-center mb-5 animate__animated animate__fadeInDown animate__faster">Todos los Pedidos</h2>
 
-                <div class="table-responsive orders-table-container">
+                <div class="table-responsive orders-table-container animate__animated animate__fadeIn animate__faster">
                     <table class="table table-bordered orders-table">
                         <thead>
                             <tr>

@@ -4,13 +4,11 @@ require_once __DIR__ . '/../../../db.php';
 
 session_start();
 
-// Verificar si el usuario está autenticado y tiene permisos de administrador
 if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
     header('Location: ../../views/main.php');
     exit();
 }
 
-// Obtener todos los pedidos
 $sql = "SELECT p.id, p.coste, p.fecha, p.estado, u.nombre, u.apellidos 
         FROM pedidos p 
         JOIN usuarios u ON p.usuario_id = u.id 
@@ -47,14 +45,11 @@ $pedidos = mysqli_fetch_all($result, MYSQLI_ASSOC);
     <?php
     include '../../includes/navbar.php'
     ?>
-    <!-- Contenido principal -->
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
             <?php
             include '../../includes/aside.php'
             ?>
-            <!-- Contenido principal -->
             <div class="col-md-10 main-content p-4">
                 <h1 class="text-center mb-5  animate__animated animate__fadeInDown animate__faster">Gestionar Pedidos</h1>
                 
@@ -115,9 +110,7 @@ $pedidos = mysqli_fetch_all($result, MYSQLI_ASSOC);
     include '../../includes/footer.php'
     ?>
 
-    <!-- Bootstrap JS y Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Script personalizado -->
     <script src="<?= SCRIPTS ?>dashboard.js"></script>
 </body>
 </html>

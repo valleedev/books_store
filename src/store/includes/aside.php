@@ -1,15 +1,13 @@
 <div class="col-md-2 sidebar d-flex flex-column sticky-top" style="height: 100vh; z-index: 999;">
     <?php if (!isset($_SESSION['user'])): ?>
-        <!-- Alerta de Bootstrap -->
-        <div class="alert alert-warning m-3" role="alert">
+        <div class="alert alert-warning m-3 animate__animated animate__fadeInLeft animate__faster" role="alert">
             Debes iniciar sesión para acceder a esta sección.
         </div>
     <?php else: ?>
         <div class="user-section d-flex flex-column flex-grow-1">
-            <h2 class="text-start p-2"><?= htmlspecialchars($_SESSION['user']['name']) ?></h2>
+            <h2 class="text-start p-2 animate__animated animate__fadeInLeft animate__faster"><?= htmlspecialchars($_SESSION['user']['name']) ?></h2>
             <ul class="nav flex-column px-2 flex-grow-1 d-flex">
                 <?php if ($_SESSION['user']['rol'] === 'admin'): ?>
-                    <!-- Opciones para el administrador -->
                     <li class="nav-item">
                         <a class="icon-link icon-link-hover text-dark text-decoration-none" href="<?= PRODUCTS ?>products.php">
                             Gestionar productos
@@ -35,7 +33,6 @@
                         </a>
                     </li>
                 <?php else: ?>
-                    <!-- Opciones para usuarios normales -->
                     <li class="nav-item">
                         <a class="icon-link icon-link-hover text-dark text-decoration-none" href="<?= MAIN ?>main.php">
                             Productos

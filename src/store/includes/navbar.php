@@ -29,6 +29,12 @@ require_once __DIR__ . '/../../db.php';
             </div>
             <form method="POST" action="../bussines_logic/auth/sign_in.php" enctype="multipart/form-data">
                 <div class="modal-body">
+                    <?php if (isset($_SESSION['register_error'])): ?>
+                        <div class="alert alert-danger">
+                            <?= htmlspecialchars($_SESSION['register_error']) ?>
+                        </div>
+                        <?php unset($_SESSION['register_error']); ?>
+                    <?php endif; ?>
                     <div class="mb-3">
                         <label for="name" class="form-label">Nombre</label>
                         <input type="text" class="form-control" id="name" name="name" required>
@@ -59,11 +65,17 @@ require_once __DIR__ . '/../../db.php';
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="createModalLabel">Loguearse</h1>
+                <h1 class="modal-title fs-5" id="createModalLabel">Iniciar Sesión</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="../bussines_logic/login/login.php" enctype="multipart/form-data">
+            <form method="POST" action="../bussines_logic/auth/login.php" enctype="multipart/form-data">
                 <div class="modal-body">
+                    <?php if (isset($_SESSION['login_error'])): ?>
+                        <div class="alert alert-danger">
+                            <?= htmlspecialchars($_SESSION['login_error']) ?>
+                        </div>
+                        <?php unset($_SESSION['login_error']); ?>
+                    <?php endif; ?>
                     <div class="mb-3">
                         <label for="email" class="form-label">Correo electronico</label>
                         <input type="email" class="form-control" id="email" name="email" required>
@@ -75,7 +87,7 @@ require_once __DIR__ . '/../../db.php';
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">loguear</button>
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
                 </div>
             </form>
         </div>

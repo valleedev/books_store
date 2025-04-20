@@ -9,7 +9,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
     exit();
 }
 
-// Obtener el ID del pedido de la URL
 $pedido_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($pedido_id <= 0) {
@@ -17,7 +16,6 @@ if ($pedido_id <= 0) {
     exit();
 }
 
-// Obtener información del pedido
 $sql = "SELECT p.id, p.coste, p.fecha, p.estado, p.direccion, p.provincia, p.fecha, p.localidad, u.nombre, u.apellidos
          FROM pedidos p 
          JOIN usuarios u ON p.usuario_id = u.id 
@@ -34,11 +32,12 @@ if (!$pedido) {
     exit();
 }
 
-// Obtener los productos del pedido
-$sql_productos = "SELECT l.stock, dp.coste, l.nombre, l.imagen
-                 FROM pedidos dp
-                 JOIN productos l ON dp.id = l.id
-                 WHERE dp.id = ?";
+$sql_productos = "SELECT lp.unidades, p.nombre, p.imagen, p.stock, p.precio
+                 FROM lineas_pedidos lp
+                 JOIN productos p ON lp.producto_id = p.id
+                 WHERE lp.pedido_id = ?";
+
+
 
 $stmt_prod = mysqli_prepare($conexion, $sql_productos);
 mysqli_stmt_bind_param($stmt_prod, "i", $pedido_id);
@@ -46,7 +45,6 @@ mysqli_stmt_execute($stmt_prod);
 $result_prod = mysqli_stmt_get_result($stmt_prod);
 $productos = mysqli_fetch_all($result_prod, MYSQLI_ASSOC);
 
-// Procesar cambio de estado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
     $nuevo_estado = $_POST['nuevo_estado'];
     $sql_update = "UPDATE pedidos SET estado = ? WHERE id = ?";
@@ -54,10 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
     mysqli_stmt_bind_param($stmt_update, "si", $nuevo_estado, $pedido_id);
     mysqli_stmt_execute($stmt_update);
 
-    // Refrescar la página para mostrar el estado actualizado
-    header("Location: order_details.php?id=$pedido_id");
+    $_SESSION['estado_actualizado'] = true;
+
+    echo "<script>window.location.href = 'order_details.php?id=$pedido_id';</script>";
     exit();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -81,17 +81,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
 
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
             <?php include '../../includes/aside.php' ?>
 
-            <!-- Contenido principal -->
             <div class="col-md-10 main-content p-4 animate__animated animate__fadeIn animate__faster">
                 <div class="card mb-4">
                     <div class="card-header bg-success text-white text-center animate__animated animate__fadeInDown animate__faster">
                         <h3>Detalle del Pedido</h3>
                     </div>
                     <div class="card-body ">
-                        <!-- Cambiar estado del pedido -->
                         <div class="mb-4">
                             <h5>Cambiar estado del pedido</h5>
                             <form method="post" class="row align-items-end">
@@ -113,7 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
                             </form>
                         </div>
 
-                        <!-- Dirección de envío -->
                         <div class="mb-4">
                             <h5>Dirección de envío</h5>
                             <div class="ms-3">
@@ -123,7 +119,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
                             </div>
                         </div>
 
-                        <!-- Datos del pedido -->
                         <div class="mb-4">
                             <h5>Datos del pedido</h5>
                             <div class="ms-3">
@@ -135,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
                                     <table class="table table-bordered table-hover">
                                         <thead class="table-light">
                                             <tr>
-                                                <th style="width: 100px"></th>
+                                                <th style="width: 100px">Imagen</th>
                                                 <th>Nombre</th>
                                                 <th>Precio</th>
                                                 <th>Cantidad</th>
@@ -146,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
                                                 <tr>
                                                     <td class="text-center">
                                                         <?php if (!empty($producto['imagen'])): ?>
-                                                            <img src="<?= IMAGES . $producto['imagen'] ?>" alt="Foto producto" class="img-thumbnail" style="max-height: 60px;">
+                                                            <img src="<?= IMAGES . 'uploads/products/' . $producto['imagen'] ?>" alt="Foto producto" class="img-fluid rounded" style="max-height: 90px;">
                                                         <?php else: ?>
                                                             <div class="bg-light text-center p-2">Foto producto</div>
                                                         <?php endif; ?>
@@ -171,12 +166,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <?php include '../../includes/footer.php' ?>
+    <?php if (!empty($_SESSION['estado_actualizado'])): ?>
+        <script>
+            Swal.fire({
+                title: '¡Estado actualizado!',
+                text: 'El estado del pedido se cambió correctamente.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>
+        <?php unset($_SESSION['estado_actualizado']); ?>
+    <?php endif; ?>
 
-    <!-- Bootstrap JS y Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Script personalizado -->
-    <script src="<?= SCRIPTS ?>dashboard.js"></script>
+
 </body>
 
 </html>
