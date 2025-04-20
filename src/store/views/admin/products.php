@@ -32,6 +32,10 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
     <link rel="stylesheet" href="<?= STYLE ?>products.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
     <title>LIBRARIUM - Gestión de Productos</title>
 </head>
 
@@ -49,11 +53,13 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
             ?>
 
             <div class="col-md-10 main-content">
-                <h2 class="text-center mb-4">Gestión de Productos</h2>
+                <h1 class="text-center animate__animated animate__fadeInDown animate__faster">Gestión de Productos</h1>
 
-                <button type="button" class="btn btn-create" data-bs-toggle="modal" data-bs-target="#createModal">
-                    Crear Producto
-                </button>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-create animate__animated animate__fadeIn animate__faster" data-bs-toggle="modal" data-bs-target="#createModal">
+                        Crear Producto
+                    </button>
+                </div>
 
                 <!-- Modal de Creación -->
                 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
@@ -192,17 +198,17 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
                     </div>
                 </div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th width="10%">IMAGEN</th>
-                            <th width="20%">NOMBRE</th>
-                            <th width="20%">PRECIO</th>
-                            <th width="10%">OFERTA</th>
-                            <th width="10%">STOCK</th>
-                            <th width="40%">ACCIONES</th>
+                <table class="table table-bordered align-middle text-center animate__animated animate__fadeIn animate__faster">
+                    <thead class="table">
+                        <tr class="table-light">
+                            <th scope="col" width="10%">Imagen</th>
+                            <th scope="col" width="20%">Nombre</th>
+                            <th scope="col" width="20%">Precio</th>
+                            <th scope="col" width="10%">Oferta</th>
+                            <th scope="col" width="10%">Stock</th>
+                            <th scope="col" width="20%">Acciones</th>
                         </tr>
-                    </thead> 
+                    </thead>
                     <tbody>
                         <?php
 
@@ -212,19 +218,19 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
                         if (mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
                                 echo "<tr>";
-                                echo "<td><img src='" . IMAGES . "uploads/products/" . $row['imagen'] . "' alt='Imagen del producto' style='max-width:80px; max-height: 80px;'></td>";
+                                echo "<td><img src='" . IMAGES . "uploads/products/" . $row['imagen'] . "' alt='Imagen del producto' class='img-fluid rounded' style='max-width: 80px;'></td>";
                                 echo "<td>" . $row['nombre'] . "</td>";
                                 echo "<td>" . $row['precio'] . "</td>";
                                 echo "<td>" . $row['oferta'] . "</td>";
                                 echo "<td>" . $row['stock'] . "</td>";
-                                echo "<td>
-                                        <button class='btn btn-edit w-25' onclick='editarProducto(" . $row['id'] . ")'>Editar</button>
-                                        <button class='btn btn-delete w-25' onclick='eliminarProducto(" . $row['id'] . ")'>Eliminar</button>
+                                echo "<td class='d-flex justify-content-center align-items-center gap-2 h-100'>
+                                        <button class='btn btn-warning text-white' onclick='editarProducto(" . $row['id'] . ")'>Editar</button>
+                                        <button class='btn btn-danger text-white' onclick='eliminarProducto(" . $row['id'] . ")'>Eliminar</button>
                                       </td>";
                                 echo "</tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='4' class='text-center'>No hay productos registrados</td></tr>";
+                            echo "<tr><td colspan='6' class='text-center'>No hay productos registrados</td></tr>";
                         }
                         ?>
                     </tbody>

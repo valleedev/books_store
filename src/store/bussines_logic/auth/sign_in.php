@@ -1,34 +1,55 @@
 <?php
 require_once __DIR__ . '/../../../db.php';
+session_start();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre = trim($_POST['name']);
-    $apellidos = trim($_POST['lastname']);
-    $correo = trim($_POST['email']);
-    $contrasena = $_POST['password'];
-
-    // Verificar si el email ya está registrado
-    $check_email = "SELECT id FROM usuarios WHERE email = '$correo'";
-    $result = mysqli_query($conexion, $check_email);
-
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre = $_POST['name'];
+    $apellidos = $_POST['lastname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    
+    if (empty($nombre) || empty($apellidos) || empty($email) || empty($password)) {
+        $_SESSION['register_error'] = "Todos los campos son obligatorios.";
+        header("Location: ../../views/main.php?register_error=1");
+        exit();
+    }
+    
+    $check_email = "SELECT id FROM usuarios WHERE email = ?";
+    $stmt = mysqli_prepare($conexion, $check_email);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    
     if (mysqli_num_rows($result) > 0) {
-        // Redirigir con un mensaje de error
-        header("Location: ../../views/main.php");
+        $_SESSION['register_error'] = "El correo electrónico ya está registrado.";
+        header("Location: ../../views/main.php?register_error=1");
+        exit();
+    }
+    
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    
+    $sql = "INSERT INTO usuarios (nombre, apellidos, email, password, rol) VALUES (?, ?, ?, ?, 'user')";
+    $stmt = mysqli_prepare($conexion, $sql);
+    mysqli_stmt_bind_param($stmt, "ssss", $nombre, $apellidos, $email, $hashed_password);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        $user_id = mysqli_insert_id($conexion);
+        
+        $_SESSION['user'] = [
+            'id' => $user_id,
+            'name' => $nombre,
+            'email' => $email,
+            'rol' => 'user'
+        ];
+        
+        $_SESSION['welcome_message'] = "¡Bienvenido a Librarium, $nombre!";
+        
+        header("Location: ../../views/main.php?welcome=1");
         exit();
     } else {
-        $contrasena_segura = password_hash($contrasena, PASSWORD_BCRYPT);
-        $query = "INSERT INTO usuarios (nombre, apellidos, email, password) 
-                VALUES ('$nombre', '$apellidos', '$correo', '$contrasena_segura')";
-
-        if (mysqli_query($conexion, $query)) {
-            // Redirigir con un mensaje de éxito
-            header("Location: ../../views/main.php");
-            exit();
-        } else {
-            // Redirigir con un mensaje de error
-            header("Location: ../../views/main.php");
-            exit();
-        }
+        $_SESSION['register_error'] = "Error al registrar usuario: " . mysqli_error($conexion);
+        header("Location: ../../views/main.php?register_error=1");
+        exit();
     }
 }
 ?>
