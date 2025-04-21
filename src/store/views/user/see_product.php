@@ -80,6 +80,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= STYLE ?>index.css">
     <link rel="stylesheet" href="<?= STYLE ?>see_product.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
 </head>
 
 <body>
@@ -99,9 +103,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                     unset($_SESSION['message']); 
                 }
                 ?>
-                <h1 class="text-center mb-5"><?= htmlspecialchars($product['nombre']) ?></h1>
+                <h1 class="text-center mb-5 animate__animated animate__fadeInDown animate__faster"><?= htmlspecialchars($product['nombre']) ?></h1>
 
-                <div class="d-flex gap-4">
+                <div class="d-flex gap-4 animate__animated animate__fadeIn animate__faster">
                     <div class="product-image d-flex justify-content-center">
                         <?php if (!empty($product['imagen'])): ?>
                             <?php echo "<img src='" . IMAGES . "uploads/products/" . $product['imagen'] . "' alt='Imagen del producto' class='img-fluid rounded'>  " ?>
@@ -112,13 +116,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 
                     <div class="product-info">
                         <div class="d-flex justify-content-between mb-3">
-                            <div class="product-category">Categoría: <?= htmlspecialchars($product['categoria']) ?></div>
+                            <div class="product-category">Categoría: <?= htmlspecialchars($product['categoria'] ?? '') ?></div>
                             <div class="product-price-title">Precio: $<?= number_format($product['precio'], 0, ',', '.') ?></div>
                         </div>
 
-                        <p class="product-description">
-                            <?= htmlspecialchars($product['descripcion']) ?>
-                        </p>
+                        <p class="product-description"><?= htmlspecialchars($product['descripcion'] ?? '') ?></p>
 
                         <div class="product-stock">
                             Stock: <?= $product['stock'] > 0 ? $product['stock'] : 'Agotado' ?>
@@ -139,18 +141,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                             ?>
                             
                             <?php if ($product['stock'] > 0): ?>
-                                <?php if (!$in_cart): ?>
-                                    <form method="POST" action="">
-                                        <input type="hidden" name="product_id" value="<?= $product_id ?>">
-                                        <input type="hidden" name="product_name" value="<?= htmlspecialchars($product['nombre']) ?>">
-                                        <input type="hidden" name="product_price" value="<?= $product['precio'] ?>">
-                                        <input type="hidden" name="product_image" value="<?= htmlspecialchars($product['imagen']) ?>">
-                                        <input type="hidden" name="add_to_cart" value="1">
-                                        <button type="submit" class="btn btn-primary">Agregar al Carrito</button>
-                                    </form>
+                                <?php if (isset($_SESSION['user'])): ?>
+                                    <?php if (!$in_cart): ?>
+                                        <form method="POST" action="">
+                                            <input type="hidden" name="product_id" value="<?= $product_id ?>">
+                                            <input type="hidden" name="product_name" value="<?= htmlspecialchars($product['nombre'] ?? '') ?>">
+                                            <input type="hidden" name="product_price" value="<?= $product['precio'] ?>">
+                                            <input type="hidden" name="product_image" value="<?= htmlspecialchars($product['imagen'] ?? '') ?>">
+                                            <input type="hidden" name="add_to_cart" value="1">
+                                            <button type="submit" class="btn btn-primary">Agregar al Carrito</button>
+                                        </form>
+                                    <?php else: ?>
+                                        <div class="alert alert-info rounded d-flex justify-content-center px-2">¡Ya en el carrito!</div>
+                                    <?php endif; ?>
                                 <?php else: ?>
-                                    <div class="alert alert-info rounded d-flex justify-content-center px-2">¡Ya en el carrito!</div>
-                                <?php endif; ?>
+                                        <button type="button" class="btn btn-primary btn-sm btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                            Agregar al Carrito
+                                        </button>
+                                    <?php endif; ?>
                             <?php else: ?>
                                 <button class="btn btn-secondary" disabled>Producto agotado</button>
                             <?php endif; ?>

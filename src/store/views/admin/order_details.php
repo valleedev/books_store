@@ -33,7 +33,7 @@ if (!$pedido) {
 }
 
 $sql_productos = "SELECT lp.unidades, p.nombre, p.imagen, p.stock, p.precio
-                 FROM lineas_pedidos lp
+                 FROM lineas_pedido lp
                  JOIN productos p ON lp.producto_id = p.id
                  WHERE lp.pedido_id = ?";
 

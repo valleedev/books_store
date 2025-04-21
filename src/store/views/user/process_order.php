@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $unidades = mysqli_real_escape_string($conexion, $producto['quantity']);
             $precio = mysqli_real_escape_string($conexion, $producto['price']);
             
-            $sql_linea = "INSERT INTO lineas_pedidos (pedido_id, producto_id, unidades) 
+            $sql_linea = "INSERT INTO lineas_pedido (pedido_id, producto_id, unidades) 
                          VALUES ('$pedido_id', '$producto_id', '$unidades')";
             
             mysqli_query($conexion, $sql_linea);

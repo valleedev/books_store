@@ -140,6 +140,20 @@ try {
     <?php include '../../includes/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const editCategoryModal = document.getElementById('editCategoryModal');
+        editCategoryModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const id = button.getAttribute('data-id');
+            const nombre = button.getAttribute('data-nombre');
+
+            const inputId = editCategoryModal.querySelector('#editCategoryId');
+            const inputNombre = editCategoryModal.querySelector('#editCategoryName');
+
+            inputId.value = id;
+            inputNombre.value = nombre;
+        });
+    </script>
     
 </body>
 </html>

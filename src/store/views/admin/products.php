@@ -7,6 +7,11 @@ require_once '../../bussines_logic/products/update_product.php';
 
 session_start();
 
+if (!isset($_SESSION['user']) || $_SESSION['user']['rol'] !== 'admin') {
+    header('Location: ../../views/main.php');
+    exit();
+}
+
 if (!$conexion) {
     die("Error de conexión: " . mysqli_connect_error());
 }

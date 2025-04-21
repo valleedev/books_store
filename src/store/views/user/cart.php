@@ -25,6 +25,7 @@ foreach ($cart as $product) {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -162,6 +163,20 @@ foreach ($cart as $product) {
     <?php
     include '../../includes/footer.php'
     ?>
+
+    <?php if (isset($_SESSION['error_message'])): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '<?= htmlspecialchars($_SESSION['error_message']) ?>',
+                confirmButtonText: 'Aceptar'
+            });
+        });
+    </script>
+    <?php unset($_SESSION['error_message']); ?>
+    <?php endif; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
