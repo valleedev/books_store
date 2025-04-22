@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tabla */
+.orders-table {
+    border-collapse: collapse;
+}
+
+.orders-table th {
+    background-color: #f8f9fa;
+}
+
+.order-row {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.order-row:hover {
+    background-color: var(--hover-color);
+}
+
+.selected {
+    background-color: var(--selected-color);
+}
