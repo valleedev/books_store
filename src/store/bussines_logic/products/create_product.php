@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['edit_product'])) {
     $offer = trim($_POST['offer']);
     $date = isset($_POST['date']) ? $_POST['date'] : date('Y-m-d');
 
-    $image = '';
+    $image = ''; 
     $upload_successful = true;
 
     if (!empty($category) && !empty($name) && !empty($description) && !empty($price) && !empty($stock) && !empty($offer)) {

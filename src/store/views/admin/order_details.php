@@ -32,10 +32,9 @@ if (!$pedido) {
     exit();
 }
 
-$sql_productos = "SELECT lp.unidades, p.nombre, p.imagen, p.stock, p.precio
-                 FROM lineas_pedido lp
-                 JOIN productos p ON lp.producto_id = p.id
-                 WHERE lp.pedido_id = ?";
+$sql_productos = "SELECT unidades, nombre_prod, imagen_prod, precio_prod, stock_prod
+                 FROM lineas_pedido
+                 WHERE pedido_id = ?";
 
 
 
@@ -140,18 +139,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nuevo_estado'])) {
                                             <?php foreach ($productos as $producto): ?>
                                                 <tr>
                                                     <td class="text-center">
-                                                        <?php if (!empty($producto['imagen'])): ?>
-                                                            <img src="<?= IMAGES . 'uploads/products/' . $producto['imagen'] ?>" alt="Foto producto" class="img-fluid rounded" style="max-height: 90px;">
+                                                        <?php if (!empty($producto['imagen_prod'])): ?>
+                                                            <img src="<?= IMAGES . 'uploads/products/' . $producto['imagen_prod'] ?>" alt="Foto producto" class="img-fluid rounded" style="max-height: 90px;">
                                                         <?php else: ?>
                                                             <div class="bg-light text-center p-2">Foto producto</div>
                                                         <?php endif; ?>
                                                     </td>
-                                                    <td><?= htmlspecialchars($producto['nombre']) ?></td>
-                                                    <td>$ <?= number_format($producto['precio'], 0, ',', '.') ?></td>
-                                                    <td>Stock: <?= $producto['stock'] ?></td>
+                                                    <td><?= htmlspecialchars($producto['nombre_prod']) ?></td>
+                                                    <td>$ <?= number_format($producto['precio_prod'], 0, ',', '.') ?></td>
+                                                    <td>Stock: <?= $producto['stock_prod'] ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
-                                        </tbody>
+                                        </tbody> 
                                     </table>
                                 </div>
                             </div>

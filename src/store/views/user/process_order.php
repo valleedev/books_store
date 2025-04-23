@@ -43,8 +43,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $unidades = mysqli_real_escape_string($conexion, $producto['quantity']);
             $precio = mysqli_real_escape_string($conexion, $producto['price']);
             
-            $sql_linea = "INSERT INTO lineas_pedido (pedido_id, producto_id, unidades) 
-                         VALUES ('$pedido_id', '$producto_id', '$unidades')";
+            if (isset($producto_id)) {
+                $sql = "SELECT id, nombre, descripcion, precio, stock, imagen, categoria_id 
+                        FROM productos 
+                        WHERE id = ?";
+                
+                $stmt = $conexion->prepare($sql);
+                $stmt->bind_param("i", $producto_id);
+                $stmt->execute();
+                $result = $stmt->get_result();
+            
+                if ($result->num_rows > 0) {
+                    $prod = $result->fetch_assoc();
+                } else {
+                    echo "Producto no encontrado.";
+                }
+            
+                $stmt->close();
+                $image_prod = $prod['imagen'];
+                $nombre_prod = $prod['nombre'];
+                $precio_prod = $prod['precio'];
+                $stock_prod = $prod['stock'];
+            }
+
+            $sql_linea = "INSERT INTO lineas_pedido (pedido_id, unidades, imagen_prod, nombre_prod, precio_prod, stock_prod) 
+                         VALUES ('$pedido_id', '$unidades', '$image_prod', '$nombre_prod', '$precio_prod', '$stock_prod')";
             
             mysqli_query($conexion, $sql_linea);
         }
