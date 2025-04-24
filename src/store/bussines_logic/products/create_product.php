@@ -6,13 +6,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['edit_product'])) {
     $description = trim($_POST['description']);
     $price = trim($_POST['price']);
     $stock = trim($_POST['stock']);
-    $offer = trim($_POST['offer']);
+    $offer = isset($_POST['offer']) ? (int)$_POST['offer'] : 0; // Aseguramos que 0 sea válido
     $date = isset($_POST['date']) ? $_POST['date'] : date('Y-m-d');
 
     $image = ''; 
     $upload_successful = true;
 
-    if (!empty($category) && !empty($name) && !empty($description) && !empty($price) && !empty($stock) && !empty($offer)) {
+    // Ajustar la validación para permitir valores 0 en "offer"
+    if (!empty($category) && !empty($name) && !empty($description) && !empty($price) && !empty($stock) && $offer >= 0) {
         $sql = "INSERT INTO productos (categoria_id, nombre, descripcion, precio, stock, oferta, fecha, imagen) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, '')";
 
@@ -70,49 +71,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_POST['edit_product'])) {
             $_SESSION['error_message'] = "Error al guardar en la base de datos: " . $stmt->error;
         }
     } else {
-        $_SESSION['error_message'] = "Todos los campos son obligatorios.";
+        $_SESSION['error_message'] = "Todos los campos son obligatorios y la oferta debe ser 0 o mayor.";
     }
 
     header("Location: products.php");
     exit;
 }
 ?>
-
-<?php if (isset($_SESSION['success_message'])): ?>
-    <script>
-        Swal.fire({
-            icon: 'success',
-            title: '¡Éxito!',
-            text: '<?= $_SESSION['success_message'] ?>',
-            confirmButtonText: 'Aceptar',
-            allowOutsideClick: false,
-            heightAuto: false,
-            confirmButtonColor: '#28a745',
-            customClass: {
-                popup: 'small-alert',
-                confirmButton: 'green-button'
-            }
-        });
-    </script>
-<?php
-    unset($_SESSION['success_message']);
-endif; ?>
-
-<?php if (isset($_SESSION['error_message'])): ?>
-    <script>
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: '<?= $_SESSION['error_message'] ?>',
-            confirmButtonText: 'Intentar de nuevo',
-            allowOutsideClick: false,
-            heightAuto: false,
-            customClass: {
-                popup: 'small-alert',
-                confirmButton: 'green-button'
-            }
-        });
-    </script>
-<?php
-    unset($_SESSION['error_message']);
-endif; ?>

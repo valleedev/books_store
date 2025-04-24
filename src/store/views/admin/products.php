@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../../../router.php';
 require_once '../../../db.php';
 require_once '../../bussines_logic/products/create_product.php';
-require_once '../../bussines_logic/products/delete_product.php';
+require_once '../../bussines_logic/products/delete_product.php'; 
 require_once '../../bussines_logic/products/update_product.php';
 
 session_start();
