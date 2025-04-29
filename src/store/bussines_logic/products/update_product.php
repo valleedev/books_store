@@ -108,7 +108,7 @@ if (isset($_POST['edit_product'])) {
                 if (data.imagen) {
                     document.getElementById('current_image').src = '/public/uploads/productos/' + data.imagen;
 
-                    document.getElementById('current_image_container').style.display = 'block';
+                    document.getElementById('current_image_container').style.display = 'none';
                 } else {
                     document.getElementById('current_image_container').style.display = 'none';
                 }

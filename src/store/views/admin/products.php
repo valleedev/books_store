@@ -189,8 +189,7 @@ if ($result_categorias && mysqli_num_rows($result_categorias) > 0) {
                                         <input type="file" class="form-control" id="edit_image" name="edit_image" accept="image/*">
                                         <small class="text-muted">Formatos permitidos: JPG, JPEG, PNG, GIF. Tamaño máximo: 2MB</small>
                                         <div id="current_image_container" class="mt-2">
-                                            <p>Imagen actual:</p>
-                                            <img id="current_image" src="/public/images/uploads/products/<?= $row['imagen'] ?>" alt="Imagen actual" style="max-width: 100px; max-height: 100px;">
+                                            <img id="current_image" src="/public/images/uploads/products/<?= $row['imagen'] ?>" alt="Imagen actual" style=" max-width: 100px; max-height: 100px;">
                                         </div>
                                     </div>
                                 </div>
